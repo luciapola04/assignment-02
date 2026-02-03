@@ -1,0 +1,29 @@
+#ifndef __HANGAR_TASK__
+#define __HANGAR_TASK__
+
+#include "kernel/Task.h"
+#include "HWPlatform.h"
+#include "Context.h"
+
+class HangarTask: public Task {
+
+public:
+  HangarTask(HWPlatform* pHW, Context* pContext);
+  virtual void tick();
+
+private:
+  void setState(int s);
+  long elapsedTimeInState();
+  bool checkAndSetJustEntered();
+
+  HWPlatform* pHW;
+  Context* pContext;
+
+  int state;
+  long stateTimestamp;
+  bool justEntered;
+
+  enum {STARTUP, IDLE}; //da aggiornare
+};
+
+#endif
