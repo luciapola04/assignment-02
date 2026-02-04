@@ -1,4 +1,5 @@
 #include "tasks/BlinkingTask.h"
+#include "HangarTask.h"
 #include <Arduino.h>
 #include "config.h"
 #include "kernel/Logger.h"
@@ -49,7 +50,7 @@ void BlinkingTask::tick(){
 }
 
 
-void BlinkingTask::setState(int s){
+void BlinkingTask::setState(State s){
     state = s;
     stateTimestamp = millis();
     justEntered = true;

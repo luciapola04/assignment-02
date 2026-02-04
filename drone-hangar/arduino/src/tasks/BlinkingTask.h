@@ -12,19 +12,20 @@ public:
   BlinkingTask(Led* pLed, Context* pContext); 
   void tick();
 
-private:  
-  void setState(int state);
+private:
+  enum State { IDLE, OFF, ON };
+  void setState(State state);
   long elapsedTimeInState();
   void log(const String& msg);
   
   bool checkAndSetJustEntered();
   
-  enum { IDLE, OFF, ON } state;
   long stateTimestamp;
   bool justEntered;
 
   Led* pLed;
   Context* pContext;
+  State state;
 };
 
 #endif
