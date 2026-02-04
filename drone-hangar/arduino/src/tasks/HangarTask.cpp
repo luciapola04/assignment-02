@@ -48,7 +48,7 @@ void HangarTask::tick(){
                 pHW->getLcd()->clear();
                 pHW->getLcd()->print("TAKE OFF");
 
-                pContext->setDoor(true);
+                pContext->setDoorMoving(true);
             }
             
             if (pContext->getDroneDistance() > D1) {
@@ -58,7 +58,7 @@ void HangarTask::tick(){
                     pHW->getLcd()->print("DRONE OUT");
                     
                     pContext->setDroneInside(false);
-                    pContext->setDoor(false);
+                    pContext->setDoorMoving(false);
                     pContext->setStopped();
                     setState(IDLE);
                 }
@@ -75,7 +75,7 @@ void HangarTask::tick(){
                 pHW->getLcd()->clear();
                 pHW->getLcd()->print("LANDING");
 
-                pContext->setDoor(true);
+                pContext->setDoorMoving(true);
             }
 
             if (pContext->getDroneDistance() < D2) {
@@ -85,7 +85,7 @@ void HangarTask::tick(){
                     pHW->getLcd()->print("DRONE INSIDE");
                     
                     pContext->setDroneInside(true);
-                    pContext->setDoor(false);
+                    pContext->setDoorMoving(false);
                     pContext->setStopped();
                     setState(IDLE);
                 } 

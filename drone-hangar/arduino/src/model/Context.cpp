@@ -12,6 +12,10 @@ void Context::reset(){
     this->droneDistance = 0.0;
     this->dronePresent = false;
     this->droneInside = true;
+    this->doorMoving = false;
+    this->inPreAlarm = false;
+    this->reqTakeOff = false;
+    this->reqLanding = false;
 }
 
 bool Context::isStarted() { return this->started; }
@@ -33,17 +37,26 @@ SystemState Context::getSystemState() { return this->systemState; }
 void Context::setCurrentTemp(float t) { this->currentTemp = t; }
 float Context::getCurrentTemp() { return this->currentTemp; }
 
-bool Context::isDroneInside() { return this->droneInside; }
-void Context::setDroneInside(bool inside) { this->droneInside = inside; }
-
 void Context::setDroneDistance(float d) { this->droneDistance = d; }
 float Context::getDroneDistance() { return this->droneDistance; }
 
 void Context::setDronePresent(bool present) { this->dronePresent = present; }
 bool Context::isDronePresent() { return this->dronePresent; }
 
-void Context::setDoor(bool state) { this->doorOpen = state; }
-bool Context::isDoorOpen() { return this->doorOpen; }
+bool Context::isDroneInside() { return this->droneInside; }
+void Context::setDroneInside(bool inside) { this->droneInside = inside; }
 
-void Context::setAlarm(bool state) { this->alarm = state; }
-bool Context::isInPreAlarm() { return this->alarm; }
+bool Context::isDoorMoving() { return this->doorMoving; }
+void Context::setDoorMoving(bool moving) { this->doorMoving = moving; }
+
+bool Context::isInPreAlarm() { return this->inPreAlarm; }
+void Context::setPreAlarm(bool active) { this->inPreAlarm = active; }
+
+bool Context::isTakeOffRequest() { return this->reqTakeOff; }
+void Context::setTakeOffRequest(bool req) { this->reqTakeOff = req; }
+
+bool Context::isLandingRequest() { return this->reqLanding; }
+void Context::setLandingRequest(bool req) { this->reqLanding = req; }
+
+
+
