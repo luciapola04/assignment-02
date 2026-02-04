@@ -2,31 +2,39 @@
 #include "HWPlatform.h"
 #include "Context.h"
 #include "tasks/HangarTask.h"
+#include "tasks/BlinkingTask.h"
+#include "kernel/Scheduler.h"
+#include "kernel/Logger.h"
+
+#define BASE_PERIOD 50
 
 HWPlatform* hw;
 Context* context;
-HangarTask* hangarTask;
+
+Scheduler sched;
 
 void setup() {
   Serial.begin(115200);
-  
-  // Inizializza l'hardware e il contesto
+
+  sched.init(BASE_PERIOD);
+  Logger.log("Drone hangar");
+
   hw = new HWPlatform();
   hw->init();
+
+  //utilizzato per variabili di controllo
   context = new Context();
 
-  // Inizializza il task dell'hangar con un periodo di 100ms
-  // Questa funzione 'init' viene dalla classe base Task
-  hangarTask = new HangarTask(hw, context);
+  Task* hangarTask = new HangarTask(hw, context);
   hangarTask->init(100); 
+
+  Task* blinkingTask = new BlinkingTask(hw->getL2(),context);
+  blinkingTask->init(150);
+
+  sched.addTask(hangarTask);
+  sched.addTask(blinkingTask);
 }
 
 void loop() {
-  // Lo scheduler controlla se sono passati 100ms
-  // La funzione updateAndCheckTime è definita in Task.h
-  if (hangarTask->updateAndCheckTime(10)) { 
-    hangarTask->tick(); 
-  }
-  
-  delay(10); // Piccolo delay per stabilità dello scheduler
+  sched.schedule();
 }

@@ -14,4 +14,7 @@
 #define MOTOR_OPEN_POS 90
 #define MOTOR_CLOSE_POS 0
 
+
+#define BLINK_PERIOD 500
+
 #endif

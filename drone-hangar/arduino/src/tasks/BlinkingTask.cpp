@@ -15,11 +15,8 @@ void BlinkingTask::tick(){
         if (this->checkAndSetJustEntered()){
             pLed->switchOff();
             Logger.log(F("[BT] IDLE"));
-
         }
-        if (pContext->isStarted()){
-            setState(OFF);
-        }
+        setState(ON);
         break;
     }
     case OFF: {
@@ -27,10 +24,8 @@ void BlinkingTask::tick(){
             pLed->switchOff();
             Logger.log(F("[BT] OFF"));
         }
-        if (pContext->isStopped()){
-            setState(IDLE);
-        } else {
-             setState(ON);
+        if(elapsedTimeInState() > BLINK_PERIOD){
+            setState(ON);
         }
         break;
     }
@@ -39,9 +34,7 @@ void BlinkingTask::tick(){
             pLed->switchOn();
             Logger.log(F("[BT] ON"));
         }
-        if (pContext->isStopped()){
-            setState(IDLE);
-        } else {
+        if(elapsedTimeInState() > BLINK_PERIOD){
             setState(OFF);
         }
         break;
