@@ -1,13 +1,6 @@
 #include "HWPlatform.h"
 #include <Arduino.h>
-#include "devices/ButtonImpl.h"
-#include "devices/LcdImpl.h"
-#include "devices/Led.h"
-#include "devices/ServoMotorImpl.h"
-#include "devices/Pir.h"
-#include "devices/SonarImpl.h"
-#include "devices/TempSensorLM35.h" 
-#include "config.h"
+
 
 void wakeUp() {}
 
@@ -19,11 +12,14 @@ HWPlatform::HWPlatform(){
   L3          = new Led(L3_PIN);
   servoMotor  = new ServoMotorImpl(MOTOR_PIN);
   pir         = new Pir(PIR_PIN);
-  sonar       = new SonarImpl(TRIG_PIN, ECHO_PIN);
+  sonar       = new Sonar(TRIG_PIN, ECHO_PIN, 20000); //maxTime 20000 per rilevare ogg fino a 3 metri
   tempSensor  = new TempSensorLM35(TEMP_PIN); 
 }
 
 void HWPlatform::init(){
+  L1->switchOff();
+  L2->switchOff();
+  L3->switchOff();
 }
 
 Button* HWPlatform::getButton(){
@@ -62,17 +58,6 @@ Pir* HWPlatform::getPir(){
   return this->pir;
 }
 
-/*
+
 void HWPlatform::test(){
-  bool btPressed = pButton->isPressed();
-  pLed->switchOn();
-  pMotor->on();
-  pMotor->setPosition(90);
-  Logger.log("Button: " + String(btPressed ? "pressed" : " not pressed"));
-  delay(1000);
-  pMotor->setPosition(0);
-  delay(1000);
-  pMotor->off();
-  pLed->switchOff();
 }
-*/

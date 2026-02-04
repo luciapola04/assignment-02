@@ -1,20 +1,22 @@
 #ifndef __HW_PLATFORM__
 #define __HW_PLATFORM__
 
+#include "ButtonImpl.h"
 #include "config.h"
-#include "devices/Button.h"
-#include "devices/Lcd.h"
-#include "devices/Led.h"
-#include "devices/ServoMotor.h"
-#include "devices/Sonar.h"
-#include "devices/TempSensor.h"
-#include "devices/Pir.h"
+#include "LcdImpl.h"
+#include "Led.h"
+#include "Pir.h"
+#include "ServoMotorImpl.h"
+#include "Sonar.h"
+#include "TempSensorLM35.h" 
+
 
 class HWPlatform {
 
 public:
   HWPlatform();
   void init();
+  void test();
 
   Button* getButton();
   Lcd* getLcd();

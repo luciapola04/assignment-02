@@ -13,6 +13,7 @@ void HangarTask::tick(){
         
         case STARTUP: {
             if (this->checkAndSetJustEntered()){
+                Serial.println("Entrato in STARTUP");
                 pHW->getL1()->switchOn();
                 pHW->getL2()->switchOff();
                 pHW->getL3()->switchOff();

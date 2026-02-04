@@ -1,6 +1,8 @@
 #ifndef __LCD__
 #define __LCD__
 
+#include <Arduino.h>
+
 class Lcd {
 public:
   virtual void print(const String& msg) = 0;
