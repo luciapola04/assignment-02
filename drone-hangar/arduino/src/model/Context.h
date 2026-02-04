@@ -29,12 +29,8 @@ class Context {
         bool isTakeOffRequest();
         void setTakeOffRequest(bool req);
         bool isLandingRequest();
-<<<<<<< Updated upstream
-        bool checkResetButtonAndReset();
-=======
         void setLandingRequest(bool req);
-        bool checkResetButton();
->>>>>>> Stashed changes
+        bool checkResetButtonAndReset();
         float getTemperature();
 
         void openDoor();
