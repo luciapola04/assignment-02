@@ -8,27 +8,25 @@
 #define TIME_T3 3000
 #define TIME_T4 2000
 
-AlarmTask::AlarmTask(DroneHangar* droneHangar, Context* pContext): 
-    droneHangar(droneHangar), pContext(pContext) {
+AlarmTask::AlarmTask(Context* pContext): 
+    pContext(pContext) {
     setState(NORMAL);
 }
   
 void AlarmTask::tick(){
     
-    droneHangar->sync();
-    float currentTemp = droneHangar->getCurrentTemperature();
-    pContext->setCurrentTemp(currentTemp);
+    this->pContext->sync();
 
     switch (state){    
-        
     case NORMAL: {
         if (checkAndSetJustEntered()){
             Logger.log(F("[ALARM] System Normal"));
             pContext->setPreAlarm(false);
+            pContext->setAlarm(false);
         }
         
         // Se supera Temp1, inizia a contare il tempo T3
-        if (currentTemp >= TEMP1){
+        if (this->pContext->getCurrentTemp() >= TEMP1){
             setState(CHECKING_PRE_ALARM);
         }
         break;
@@ -36,7 +34,7 @@ void AlarmTask::tick(){
 
     case CHECKING_PRE_ALARM: {
         
-        if (currentTemp < TEMP1){
+        if (this->pContext->getCurrentTemp() < TEMP1){
             setState(NORMAL);
         } 
         else if (elapsedTimeInState() > TIME_T3){
@@ -48,19 +46,19 @@ void AlarmTask::tick(){
     case PRE_ALARM: {
         if (checkAndSetJustEntered()){
             Logger.log(F("[ALARM] Pre-Alarm State"));
-            droneHangar->setPreAlarm(true);
+            pContext->setPreAlarm(true);
         }
-        if (currentTemp < TEMP1){
+        if (this->pContext->getCurrentTemp() < TEMP1){
             setState(NORMAL);
         }
-        else if (currentTemp >= TEMP2){
+        else if (this->pContext->getCurrentTemp() >= TEMP2){
             setState(CHECKING_ALARM);
         }
         break;
     }
 
     case CHECKING_ALARM: {
-        if (currentTemp < TEMP2){
+        if (this->pContext->getCurrentTemp() < TEMP2){
             setState(PRE_ALARM);
         }
         else if (elapsedTimeInState() > TIME_T4){
@@ -72,12 +70,12 @@ void AlarmTask::tick(){
     case ALARM: {
         if (checkAndSetJustEntered()){
             Logger.log(F("[ALARM] CRITICAL ALARM!"));
-            droneHangar->setAlarm(true);
+            pContext->setAlarm(true);
             // Inviare messaggio via DRU (da gestire nel CommunicatorTask leggendo lo stato)
         }
 
         //solo con tasto RESET.
-        if (droneHangar->checkResetButton()){
+        if (pContext->checkResetButtonAndReset()){
             Logger.log(F("[ALARM] Reset pressed."));
             setState(NORMAL);
         }

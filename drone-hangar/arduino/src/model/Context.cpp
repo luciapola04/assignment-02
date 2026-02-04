@@ -75,8 +75,9 @@ void Context::deactivateAlarm() {
   pHW->getMotor()->off();
 }
 
-bool Context::checkResetButton(){
-    return pHW->getButton()->isPressed();
+bool Context::checkResetButtonAndReset(){
+    if(buttonReset) buttonReset=false; return true;
+    return buttonReset;
 }
 
 
@@ -88,7 +89,12 @@ float Context::getDroneDistance() { return this->droneDistance; }
 bool Context::isDronePresent() { return this->dronePresent; }
 bool Context::isDroneInside() { return this->droneInside; }
 bool Context::isDoorOpen() { return this->doorOpen; }
+
 bool Context::isInPreAlarm() { return this->inPreAlarm; }
+void Context::setPreAlarm(bool preAlarm){ this->inPreAlarm = preAlarm;}
+bool Context::isInAlarm() {return this->inAlarm;}
+void Context::setAlarm(bool alarm){ this->inAlarm = alarm;}
+
 bool Context::isTakeOffRequest() { return this->reqTakeOff; }
 bool Context::isLandingRequest() { return this->reqLanding; }
 float Context::getTemperature() { return this->currentTemp;}

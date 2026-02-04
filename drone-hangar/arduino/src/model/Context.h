@@ -19,10 +19,15 @@ class Context {
         bool isDronePresent();
         bool isDroneInside();
         bool isDoorOpen();
+
         bool isInPreAlarm();
+        void setPreAlarm(bool preAlarm);
+        bool isInAlarm();
+        void setAlarm(bool alarm);
+
         bool isTakeOffRequest();
         bool isLandingRequest();
-        bool checkResetButton();
+        bool checkResetButtonAndReset();
         float getTemperature();
 
         void openDoor();
@@ -45,10 +50,14 @@ class Context {
         bool droneInside;  
         
         bool doorOpen;   
-        bool inPreAlarm;   
+
         bool reqTakeOff;   
         bool reqLanding;  
+
         bool buttonReset; 
+
+        bool inPreAlarm;
+        bool inAlarm;
 
         float currentTemp;
         float currentDistance;
