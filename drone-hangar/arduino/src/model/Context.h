@@ -18,6 +18,7 @@ class Context {
         float getDroneDistance();
         bool isDronePresent();
         bool isDroneInside();
+        void setDroneInside(bool inside);
         bool isDoorOpen();
 
         bool isInPreAlarm();
@@ -26,8 +27,14 @@ class Context {
         void setAlarm(bool alarm);
 
         bool isTakeOffRequest();
+        void setTakeOffRequest(bool req);
         bool isLandingRequest();
+<<<<<<< Updated upstream
         bool checkResetButtonAndReset();
+=======
+        void setLandingRequest(bool req);
+        bool checkResetButton();
+>>>>>>> Stashed changes
         float getTemperature();
 
         void openDoor();

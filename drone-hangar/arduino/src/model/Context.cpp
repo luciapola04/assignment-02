@@ -88,6 +88,7 @@ float Context::getCurrentTemp() { return this->currentTemp; }
 float Context::getDroneDistance() { return this->droneDistance; }
 bool Context::isDronePresent() { return this->dronePresent; }
 bool Context::isDroneInside() { return this->droneInside; }
+void Context::setDroneInside(bool inside) { this->droneInside = inside; }
 bool Context::isDoorOpen() { return this->doorOpen; }
 
 bool Context::isInPreAlarm() { return this->inPreAlarm; }
@@ -96,7 +97,9 @@ bool Context::isInAlarm() {return this->inAlarm;}
 void Context::setAlarm(bool alarm){ this->inAlarm = alarm;}
 
 bool Context::isTakeOffRequest() { return this->reqTakeOff; }
+void Context::setTakeOffRequest(bool req) { this->reqTakeOff = req; }
 bool Context::isLandingRequest() { return this->reqLanding; }
+void Context::setLandingRequest(bool req) { this->reqLanding = req; }
 float Context::getTemperature() { return this->currentTemp;}
 
 

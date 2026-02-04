@@ -5,11 +5,11 @@
 #include "HWPlatform.h"
 #include "Context.h"
 
-enum HangarState {STARTUP, IDLE, TAKE_OFF, LANDING, ALARM};
+enum HangarState {STARTUP, IDLE, TAKE_OFF, LANDING, ALARM_STATE};
 
 class HangarTask: public Task {
 public:
-  HangarTask(DroneHangar* hangar, Context* pContext);
+  HangarTask(Context* pContext);
   virtual void tick();
 
 private:
@@ -17,8 +17,10 @@ private:
   long elapsedTimeInState();
   bool checkAndSetJustEntered();
 
-  DroneHangar* hangar;
   Context* pContext;
+
+  bool isClosing;
+  long doorTimer;
 
   HangarState state;
   long stateTimestamp;
