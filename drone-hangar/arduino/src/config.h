@@ -17,9 +17,13 @@
 
 #define BLINK_PERIOD 500
 #define D1 20
-#define D2 20
+#define D2 40
 #define T1 10000
 #define T2 3000
 #define T3 3000
+#define T4 3000
+#define Temp1 20
+#define Temp2 30
+
 
 #endif

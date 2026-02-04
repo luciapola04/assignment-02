@@ -1,3 +1,4 @@
+#include "HWPlatform.h"
 #ifndef __CONTEXT__
 #define __CONTEXT__
 
@@ -5,55 +6,52 @@ enum SystemState { NORMAL, PRE_ALARM, ALARM };
 
 class Context {
     public:
-        Context();
+        Context(HWPlatform* pHW);
         void reset();
-    
-        bool isStarted();
-        bool isStopped();
-        void setStarted();
-        void setStopped();
+
+        void sync();
         
         void setSystemState(SystemState s);
         SystemState getSystemState();
     
-        void setCurrentTemp(float t);
         float getCurrentTemp();
-    
-        void setDroneDistance(float d);
         float getDroneDistance();
-    
-        void setDronePresent(bool present); 
         bool isDronePresent();
-    
         bool isDroneInside();
-        void setDroneInside(bool inside);
-    
-        void setDoorMoving(bool moving);
-        bool isDoorMoving();
-    
-        void setPreAlarm(bool active);
+        bool isDoorOpen();
         bool isInPreAlarm();
-    
-        void setTakeOffRequest(bool req);
         bool isTakeOffRequest();
-        
-        void setLandingRequest(bool req);
         bool isLandingRequest();
+        bool checkResetButton();
+        float getTemperature();
+
+        void openDoor();
+        void closeDoor();
+
+        void activateAlarm();
+        void deactivateAlarm();
+
+
     
     private:
         bool started;
         bool stopped;
         SystemState systemState;
+        HWPlatform* pHW;
         float currentTemp;
         float droneDistance;
         
         bool dronePresent; 
         bool droneInside;  
         
-        bool doorMoving;   
+        bool doorOpen;   
         bool inPreAlarm;   
         bool reqTakeOff;   
-        bool reqLanding;   
+        bool reqLanding;  
+        bool buttonReset; 
+
+        float currentTemp;
+        float currentDistance;
     };
     
     #endif
