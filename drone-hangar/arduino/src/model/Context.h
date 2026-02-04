@@ -13,19 +13,19 @@ public:
     void setSystemState(SystemState s);
     SystemState getSystemState();
     void setDroneDistance(float d);
-    bool isDroneInside();
-    void setDroneInside(bool inside);
     float getDroneDistance();
+    void setDroneInside(bool inside);
+    bool isDroneInside();
     void setDronePresent(bool present);
     bool isDronePresent();
     void setCurrentTemp(float t);
-    float getCurrentTemp();
-    void reset();
-
+    
     void setAlarm(bool state);
+    bool isInPreAlarm();
     void setDoor(bool state);
     bool isDoorOpen();
-    bool isInPreAlarm();
+    float getCurrentTemp();
+    void reset();
 
 private:
     bool started; 

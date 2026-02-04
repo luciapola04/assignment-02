@@ -42,8 +42,8 @@ float Context::getDroneDistance() { return this->droneDistance; }
 void Context::setDronePresent(bool present) { this->dronePresent = present; }
 bool Context::isDronePresent() { return this->dronePresent; }
 
-void Context::setDoor(bool state) { this->dronePresent = state; }
-bool Context::isDoorOpen() { return this->dronePresent; }
+void Context::setDoor(bool state) { this->doorOpen = state; }
+bool Context::isDoorOpen() { return this->doorOpen; }
 
-void Context::setAlarm(bool state) { this->dronePresent = state; }
-bool Context::isInPreAlarm() { return this->dronePresent; }
+void Context::setAlarm(bool state) { this->alarm = state; }
+bool Context::isInPreAlarm() { return this->alarm; }
