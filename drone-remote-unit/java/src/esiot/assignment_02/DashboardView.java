@@ -1,4 +1,4 @@
-package esiot.sweeping_system;
+package esiot.assignment_02;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

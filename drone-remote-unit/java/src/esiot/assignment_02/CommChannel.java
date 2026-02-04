@@ -1,5 +1,4 @@
-package esiot.sweeping_system;
-
+package esiot.assignment_02;
 /**
  * Simple interface for an async msg communication channel
  * @author aricci
