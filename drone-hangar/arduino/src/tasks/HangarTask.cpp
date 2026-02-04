@@ -116,7 +116,7 @@ void HangarTask::tick(){
                 pContext->activateAlarm(); 
             }
 
-            if (pContext->checkResetButton()) {
+            if (pContext->checkResetButtonAndReset()) {
                 Logger.log("RESETTING ALLARME");
                 pContext->deactivateAlarm();
                 setState(STARTUP);
