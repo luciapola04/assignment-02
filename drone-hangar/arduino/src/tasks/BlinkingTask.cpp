@@ -10,13 +10,17 @@ BlinkingTask::BlinkingTask(Led* pLed, Context* pContext):
 }
   
 void BlinkingTask::tick(){
+    
+    bool blink = (pContext->isDoorOpen() || pContext->isInPreAlarm());
     switch (state){   
     case IDLE: {
         if (this->checkAndSetJustEntered()){
             pLed->switchOff();
             Logger.log(F("[BT] IDLE"));
         }
-        setState(ON);
+        if(blink){
+            setState(ON);
+        }
         break;
     }
     case OFF: {
@@ -27,6 +31,9 @@ void BlinkingTask::tick(){
         if(elapsedTimeInState() > BLINK_PERIOD){
             setState(ON);
         }
+        if(!blink){
+            setState(IDLE);
+        }
         break;
     }
     case ON: {
@@ -36,6 +43,9 @@ void BlinkingTask::tick(){
         }
         if(elapsedTimeInState() > BLINK_PERIOD){
             setState(OFF);
+        }
+        if(!blink){
+            setState(IDLE);
         }
         break;
     }

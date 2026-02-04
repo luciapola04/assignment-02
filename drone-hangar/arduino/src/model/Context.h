@@ -20,6 +20,11 @@ public:
     float getCurrentTemp();
     void reset();
 
+    void setAlarm(bool state);
+    void setDoor(bool state);
+    bool isDoorOpen();
+    bool isInPreAlarm();
+
 private:
     bool started; 
     bool stopped;
@@ -27,6 +32,8 @@ private:
     float droneDistance;
     bool dronePresent;
     float currentTemp; 
+    bool doorOpen;
+    bool alarm;
 };
 
 #endif
