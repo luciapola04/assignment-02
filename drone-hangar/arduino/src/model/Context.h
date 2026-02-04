@@ -13,6 +13,8 @@ public:
     void setSystemState(SystemState s);
     SystemState getSystemState();
     void setDroneDistance(float d);
+    bool isDroneInside();
+    void setDroneInside(bool inside);
     float getDroneDistance();
     void setDronePresent(bool present);
     bool isDronePresent();
@@ -30,6 +32,7 @@ private:
     bool stopped;
     SystemState systemState;
     float droneDistance;
+    bool droneInside;
     bool dronePresent;
     float currentTemp; 
     bool doorOpen;

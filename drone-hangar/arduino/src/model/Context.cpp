@@ -11,6 +11,7 @@ void Context::reset(){
     this->currentTemp = 0.0;
     this->droneDistance = 0.0;
     this->dronePresent = false;
+    this->droneInside = true;
 }
 
 bool Context::isStarted() { return this->started; }
@@ -31,6 +32,9 @@ SystemState Context::getSystemState() { return this->systemState; }
 
 void Context::setCurrentTemp(float t) { this->currentTemp = t; }
 float Context::getCurrentTemp() { return this->currentTemp; }
+
+bool Context::isDroneInside() { return this->droneInside; }
+void Context::setDroneInside(bool inside) { this->droneInside = inside; }
 
 void Context::setDroneDistance(float d) { this->droneDistance = d; }
 float Context::getDroneDistance() { return this->droneDistance; }

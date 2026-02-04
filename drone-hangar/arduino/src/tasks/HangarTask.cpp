@@ -12,8 +12,8 @@ void HangarTask::tick(){
     switch (state){   
         
         case STARTUP: {
-            if (this->checkAndSetJustEntered()){
-                Serial.println("Entrato in STARTUP");
+            if (this->checkAndSetJustEntered()) {
+                Logger.log("Dentro STARTUP");
                 pHW->getL1()->switchOn();
                 pHW->getL2()->switchOff();
                 pHW->getL3()->switchOff();
@@ -27,6 +27,71 @@ void HangarTask::tick(){
         }
 
         case IDLE: {
+            if(this->checkAndSetJustEntered()) {
+                Logger.log("Dentro IDLE");
+            }
+
+            if (pContext->isStarted() && pContext->getSystemState() == NORMAL) {
+                if (pContext->isDroneInside()) {
+                    setState(TAKE_OFF);
+                } else if(pContext->isDronePresent()) {
+                    setState(LANDING);
+                }
+            }
+            break;
+        }
+
+        case TAKE_OFF: {
+            if (this->checkAndSetJustEntered()) {
+                Logger.log("Dentro TAKEOFF");
+                pHW->getMotor()->setPosition(MOTOR_OPEN_POS);
+                pHW->getLcd()->clear();
+                pHW->getLcd()->print("TAKE OFF");
+
+                pContext->setDoor(true);
+            }
+            
+            if (pContext->getDroneDistance() > D1) {
+                if (this->elapsedTimeInState() > T1) {
+                    pHW->getMotor()->setPosition(MOTOR_CLOSE_POS);
+                    pHW->getLcd()->clear();
+                    pHW->getLcd()->print("DRONE OUT");
+                    
+                    pContext->setDroneInside(false);
+                    pContext->setDoor(false);
+                    pContext->setStopped();
+                    setState(IDLE);
+                }
+            } else {
+                this->stateTimestamp = millis();
+            }
+            break;
+        }
+
+        case LANDING: {
+            if (this->checkAndSetJustEntered()) {
+                Logger.log("Dentro LANDING");
+                pHW->getMotor()->setPosition(MOTOR_OPEN_POS);
+                pHW->getLcd()->clear();
+                pHW->getLcd()->print("LANDING");
+
+                pContext->setDoor(true);
+            }
+
+            if (pContext->getDroneDistance() < D2) {
+                if (this->elapsedTimeInState() > T2) {
+                    pHW->getMotor()->setPosition(MOTOR_CLOSE_POS);
+                    pHW->getLcd()->clear();
+                    pHW->getLcd()->print("DRONE INSIDE");
+                    
+                    pContext->setDroneInside(true);
+                    pContext->setDoor(false);
+                    pContext->setStopped();
+                    setState(IDLE);
+                } 
+            } else {
+                this->stateTimestamp = millis();
+            }
             break;
         }
     }
@@ -34,7 +99,7 @@ void HangarTask::tick(){
 
 // --- Funzioni di supporto FSM ---
 
-void HangarTask::setState(int s){
+void HangarTask::setState(HangarState s){
     state = s;
     stateTimestamp = millis();
     justEntered = true;

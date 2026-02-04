@@ -12,18 +12,19 @@ public:
   virtual void tick();
 
 private:
-  void setState(int s);
+  enum HangarState {STARTUP, IDLE, TAKE_OFF, LANDING}; //da aggiornare
+  void setState(HangarState s);
   long elapsedTimeInState();
   bool checkAndSetJustEntered();
 
   HWPlatform* pHW;
   Context* pContext;
 
-  int state;
+  HangarState state;
   long stateTimestamp;
   bool justEntered;
 
-  enum {STARTUP, IDLE}; //da aggiornare
+  
 };
 
 #endif
