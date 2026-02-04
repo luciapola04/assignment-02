@@ -7,7 +7,7 @@
 class DroneHangar {
 
 public:
-  DroneHangar(HWPlatform* hw);
+  DroneHangar(HWPlatform* hw, Context* con);
   void init();
 
   bool isAvailable();
@@ -23,18 +23,17 @@ public:
   void startClosingDoor();
   void stopClosingDoor();
 
-  void setPreAlarm(bool active);
-  void setAlarm(bool active);
-  bool isPreAlarm();
-  bool isAlarm();
-  bool checkResetButton();
+  void activateAlarm();
+  void deactivateAlarm();
 
+  bool checkResetButton();
   void sync();
 
 private:
   bool sensorsCanBeUsed();
 
   HWPlatform* pHW;
+  Context* pContext;
 
   float currentTemp;
   bool isAvail;

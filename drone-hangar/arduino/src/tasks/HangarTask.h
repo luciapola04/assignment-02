@@ -5,26 +5,24 @@
 #include "HWPlatform.h"
 #include "Context.h"
 
-class HangarTask: public Task {
+enum HangarState {STARTUP, IDLE, TAKE_OFF, LANDING, ALARM};
 
+class HangarTask: public Task {
 public:
-  HangarTask(HWPlatform* pHW, Context* pContext);
+  HangarTask(DroneHangar* hangar, Context* pContext);
   virtual void tick();
 
 private:
-  enum HangarState {STARTUP, IDLE, TAKE_OFF, LANDING}; //da aggiornare
   void setState(HangarState s);
   long elapsedTimeInState();
   bool checkAndSetJustEntered();
 
-  HWPlatform* pHW;
+  DroneHangar* hangar;
   Context* pContext;
 
   HangarState state;
   long stateTimestamp;
-  bool justEntered;
-
-  
+  bool justEntered;  
 };
 
 #endif

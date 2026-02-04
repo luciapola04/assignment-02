@@ -3,12 +3,13 @@
 
 #include "kernel/Task.h"
 #include <WString.h>
+#include <Context.h>
 #include <DroneHangar.h>
 
 class AlarmTask: public Task {
 
 public:
-  AlarmTask(DroneHangar* droneHangar); 
+  AlarmTask(DroneHangar* droneHangar, Context* pContext); 
   void tick();
 
 private:  
@@ -29,6 +30,7 @@ private:
   long stateTimestamp;
   bool justEntered;
 
+  Context* pContext;
   DroneHangar* droneHangar;
 };
 

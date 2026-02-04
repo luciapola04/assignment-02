@@ -8,8 +8,8 @@
 #define TIME_T3 3000
 #define TIME_T4 2000
 
-AlarmTask::AlarmTask(DroneHangar* droneHangar): 
-    droneHangar(droneHangar){
+AlarmTask::AlarmTask(DroneHangar* droneHangar, Context* pContext): 
+    droneHangar(droneHangar), pContext(pContext) {
     setState(NORMAL);
 }
   
@@ -17,14 +17,14 @@ void AlarmTask::tick(){
     
     droneHangar->sync();
     float currentTemp = droneHangar->getCurrentTemperature();
+    pContext->setCurrentTemp(currentTemp);
 
     switch (state){    
         
     case NORMAL: {
         if (checkAndSetJustEntered()){
             Logger.log(F("[ALARM] System Normal"));
-            droneHangar->setPreAlarm(false);
-            droneHangar->setAlarm(false);
+            pContext->setPreAlarm(false);
         }
         
         // Se supera Temp1, inizia a contare il tempo T3
