@@ -3,6 +3,10 @@
 #define __CONTEXT__
 
 enum SystemState { NORMAL, PRE_ALARM, ALARM };
+enum DoorCommand { CMD_OPEN, CMD_CLOSE };
+enum DoorStatus { D_CLOSE, D_MOVING, D_OPEN };
+enum SonarState { S_OFF, S_ON };
+enum PirState { P_OFF, P_ON };
 
 class Context {
     public:
@@ -13,13 +17,29 @@ class Context {
         
         void setSystemState(SystemState s);
         SystemState getSystemState();
+
+        
     
         float getCurrentTemp();
         float getDroneDistance();
+        void setDroneDistance(float d);
+        void setDronePresent(bool present);
         bool isDronePresent();
         bool isDroneInside();
         void setDroneInside(bool inside);
+
+        DoorStatus getDoorStatus();
+        void setDoorStatus(DoorStatus doorStatus);
+        DoorCommand getDoorCommand();
+        void setDoorCommand(DoorCommand doorcommand);
         bool isDoorOpen();
+        bool isDoorClose();
+
+        void setSonar(SonarState s);
+        bool isSonarActive();
+
+        void setPir(PirState s);
+        bool isPirActive();
 
         bool isInPreAlarm();
         void setPreAlarm(bool preAlarm);
@@ -45,15 +65,19 @@ class Context {
         bool started;
         bool stopped;
         SystemState systemState;
-        HWPlatform* pHW;
+        DoorCommand doorCommand;
+        DoorStatus doorStatus;
+        HWPlatform *pHW;
         float currentTemp;
         float droneDistance;
-        
+
+        SonarState sonarState;
+
+        PirState pirState;
+
         bool dronePresent; 
         bool droneInside;  
         
-        bool doorOpen;   
-
         bool reqTakeOff;   
         bool reqLanding;  
 

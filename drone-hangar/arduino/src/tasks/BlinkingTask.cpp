@@ -11,7 +11,7 @@ BlinkingTask::BlinkingTask(Led* pLed, Context* pContext):
   
 void BlinkingTask::tick(){
     
-    bool blink = (pContext->getSystemState() == TAKE_OFF || pContext->getSystemState() == LANDING || pContext->isInPreAlarm());
+    bool blink = (pContext->getDoorStatus() == D_MOVING || pContext->isInPreAlarm());
     switch (state){   
     case IDLE: {
         if (this->checkAndSetJustEntered()){
