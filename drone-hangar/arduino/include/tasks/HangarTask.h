@@ -16,8 +16,8 @@ private:
   long elapsedTimeInState();
   bool checkAndSetJustEntered();
 
-  Context* pContext;
   HWPlatform* pHw;
+  Context* pContext;
 
   bool isClosing;
   long doorTimer;

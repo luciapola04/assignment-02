@@ -3,7 +3,8 @@
 #include "kernel/Logger.h"
 #include "config.h"
 
-HangarTask::HangarTask(HWPlatform* pHW, Context* pContext): pHw(pHW) ,pContext(pContext) {
+HangarTask::HangarTask(HWPlatform* pHW, Context* pContext): 
+    pHw(pHW), pContext(pContext) {
     setState(STARTUP);
 }
   

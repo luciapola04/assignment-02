@@ -5,7 +5,7 @@
 #include "kernel/Logger.h"
 
 BlinkingTask::BlinkingTask(Led* pLed, Context* pContext): 
-    pContext(pContext), pLed(pLed){
+     pLed(pLed),pContext(pContext){
     setState(IDLE);
 }
   
