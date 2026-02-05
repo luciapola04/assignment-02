@@ -18,7 +18,6 @@ void Context::init(){
     this->takeOff=false;
     this->reqTakeOff = false;
     this->reqLanding = false;
-    this->buttonReset = false;
 
     this -> currentDistance = 0;
     this -> currentTemp = 15;
@@ -26,14 +25,6 @@ void Context::init(){
     pHW->getL1()->switchOn();
     pHW->getL3()->switchOff();
     pHW->getMotor()->off();
-}
-
-bool Context::checkResetButtonAndReset(){
-    if(buttonReset) {
-      buttonReset=false; 
-      return true;
-    }
-    return buttonReset;
 }
 
 

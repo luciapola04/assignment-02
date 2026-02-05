@@ -86,7 +86,7 @@ void AlarmTask::tick(){
         }
 
         //solo con tasto RESET.
-        if (pContext->checkResetButtonAndReset()){
+        if (pHw->getButton()->isPressed()){
             Logger.log(F("[ALARM] Reset pressed."));
             pContext->setAlarm(false);
             pHw->getL3()->switchOff();

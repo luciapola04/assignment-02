@@ -49,7 +49,6 @@ class Context {
         void setLanding(bool landing);
         void setTakeOff(bool takeoff);
 
-        bool checkResetButtonAndReset();
         float getTemperature();
 
     private:
@@ -62,8 +61,6 @@ class Context {
         
         bool reqTakeOff;   
         bool reqLanding;  
-
-        bool buttonReset; 
 
         bool inPreAlarm;
         bool inAlarm;
