@@ -28,6 +28,12 @@ void HangarTask::tick(){
         case IDLE: {
             if(this->checkAndSetJustEntered()) {
                 Logger.log("Dentro IDLE");
+
+                if(pContext->isDroneInside()) {
+                    pUserPanel->displayDroneInside();
+                } else {
+                    pUserPanel->displayDroneOut();
+                }
             }
 
             bool flightOk = !pContext->isInPreAlarm();
@@ -70,7 +76,6 @@ void HangarTask::tick(){
                             Logger.log("Drone Uscito. Chiudo...");
                             pContext->setDoorCommand(CMD_CLOSE);
                             pContext->setDroneInside(false);
-                            pUserPanel->displayDroneOut();
                         }
                     } else {
                         this->stateTimestamp = millis();
@@ -102,7 +107,6 @@ void HangarTask::tick(){
                             Logger.log("Drone Entrato. Chiudo...");
                             pContext->setDoorCommand(CMD_CLOSE);
                             pContext->setDroneInside(true);
-                            pUserPanel->displayDroneInside();
                         }
                     } else {
                         this->stateTimestamp = millis();
