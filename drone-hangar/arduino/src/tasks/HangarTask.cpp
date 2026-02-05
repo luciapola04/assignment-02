@@ -9,8 +9,6 @@ HangarTask::HangarTask(HWPlatform* pHW, Context* pContext): pHw(pHW) ,pContext(p
   
 void HangarTask::tick(){
 
-    pContext->sync();
-
     if (pContext->getSystemState() == ALARM && state != ALARM_STATE) {
         setState(ALARM_STATE);
     }
@@ -135,8 +133,10 @@ void HangarTask::tick(){
             break;
 
         }
-   }
+    }
 }
+
+// --- Funzioni di supporto FSM ---
 
 void HangarTask::setState(HangarState s){
     state = s;
