@@ -2,6 +2,7 @@
 #include "HWPlatform.h"
 #include "Context.h"
 #include "tasks/HangarTask.h"
+#include "tasks/SerialMonitorTask.h"
 #include "tasks/BlinkingTask.h"
 #include "kernel/Scheduler.h"
 #include "kernel/Logger.h"
@@ -22,17 +23,12 @@ void setup() {
   hw = new HWPlatform();
   hw->init();
 
-  //utilizzato per variabili di controllo
-  context = new Context();
+  context = new Context(hw);
 
-  Task* hangarTask = new HangarTask(hw, context);
-  hangarTask->init(100); 
+  Task* serialTask = new SerialMonitorTask(context);
+  serialTask->init(150);
 
-  Task* blinkingTask = new BlinkingTask(hw->getL2(),context);
-  blinkingTask->init(150);
-
-  sched.addTask(hangarTask);
-  sched.addTask(blinkingTask);
+  sched.addTask(serialTask);
 }
 
 void loop() {
