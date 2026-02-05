@@ -72,7 +72,7 @@ void HangarTask::tick(){
                     if (elapsedTimeInState() > T1) {
                         Logger.log("Drone Uscito. Chiudo...");
                         pContext->setDroneInside(false);
-                        pContext->setLanding(false);
+                        pContext->setTakeOff(false);
                         setState(IDLE);
                     }
                 } else {
