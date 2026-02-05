@@ -1,4 +1,4 @@
-#include "ServoMotorImpl.h"
+#include "devices/ServoMotorImpl.h"
 #include "Arduino.h"
 #include "config.h"
 

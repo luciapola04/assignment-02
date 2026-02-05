@@ -1,4 +1,4 @@
-#include "Pir.h"
+#include "devices/Pir.h"
 #include "Arduino.h"
 
 Pir::Pir(int pin){

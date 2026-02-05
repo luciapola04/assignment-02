@@ -2,7 +2,7 @@
 #define __SERIALTASK__
 
 #include "kernel/Task.h"
-#include "Context.h"
+#include "model/Context.h"
 
 class SerialMonitorTask : public Task
 {

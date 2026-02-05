@@ -1,5 +1,5 @@
 #include "tasks/BlinkingTask.h"
-#include "HangarTask.h"
+#include "tasks/HangarTask.h"
 #include <Arduino.h>
 #include "config.h"
 #include "kernel/Logger.h"
@@ -16,7 +16,7 @@ void BlinkingTask::tick(){
     case IDLE: {
         if (this->checkAndSetJustEntered()){
             pLed->switchOff();
-            Logger.log(F("[BT] IDLE"));
+            //Logger.log(F("[BT] IDLE"));
         }
         if(blink){
             setState(ON);
@@ -26,7 +26,7 @@ void BlinkingTask::tick(){
     case OFF: {
         if (this->checkAndSetJustEntered()){
             pLed->switchOff();
-            Logger.log(F("[BT] OFF"));
+            //Logger.log(F("[BT] OFF"));
         }
         if(elapsedTimeInState() > BLINK_PERIOD){
             setState(ON);
@@ -39,7 +39,7 @@ void BlinkingTask::tick(){
     case ON: {
         if (this->checkAndSetJustEntered()){
             pLed->switchOn();
-            Logger.log(F("[BT] ON"));
+            //Logger.log(F("[BT] ON"));
         }
         if(elapsedTimeInState() > BLINK_PERIOD){
             setState(OFF);

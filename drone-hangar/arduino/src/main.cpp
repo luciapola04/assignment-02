@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#include "HWPlatform.h"
-#include "Context.h"
+#include "model/HWPlatform.h"
+#include "model/Context.h"
 #include "tasks/HangarTask.h"
 #include "tasks/SerialMonitorTask.h"
 #include "tasks/AlarmTask.h"

@@ -2,8 +2,8 @@
 #define __HANGAR_TASK__
 
 #include "kernel/Task.h"
-#include "HWPlatform.h"
-#include "Context.h"
+#include "model/HWPlatform.h"
+#include "model/Context.h"
 
 
 class HangarTask: public Task {

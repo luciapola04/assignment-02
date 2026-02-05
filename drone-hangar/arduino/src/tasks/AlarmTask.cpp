@@ -1,8 +1,8 @@
-#include "AlarmTask.h"
+#include "tasks/AlarmTask.h"
 #include <Arduino.h>
 #include "config.h"
 #include "kernel/Logger.h"
-#include "Context.h"
+#include "model/Context.h"
 
 #define TEMP1 20.0
 #define TEMP2 40.0 
