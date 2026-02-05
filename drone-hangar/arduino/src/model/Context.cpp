@@ -9,9 +9,9 @@ Context::Context(HWPlatform* pHW){
 void Context::reset(){
     this->started = false;
     this->stopped = true; 
-    this->systemState = NORMAL;
+    this->systemState = AT_NORMAL;
     this->currentTemp = 0.0;
-    this->droneDistance = 0.0;
+    this->currentDistance = 0.0;
     this->dronePresent = false;
     this->droneInside = true;
     this->doorCommand = CMD_CLOSE;
@@ -90,8 +90,8 @@ void Context::setSystemState(SystemState s) { this->systemState = s; }
 SystemState Context::getSystemState() { return this->systemState; }
 
 float Context::getCurrentTemp() { return this->currentTemp; }
-float Context::getDroneDistance() { return this->droneDistance; }
-void Context::setDroneDistance(float d) { this->droneDistance = d; }
+float Context::getDroneDistance() { return this->currentDistance; }
+void Context::setDroneDistance(float d) { this->currentDistance = d; }
 void Context::setDronePresent(bool present) { this->dronePresent = present; }
 bool Context::isDronePresent() { return this->dronePresent; }
 bool Context::isDroneInside() { return this->droneInside; }

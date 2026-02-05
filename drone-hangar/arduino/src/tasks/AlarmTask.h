@@ -12,18 +12,18 @@ public:
   void tick();
 
 private:  
-  void setState(State state);
+  void setState(SystemState state);
   long elapsedTimeInState();
   void log(const String& msg);
   
   bool checkAndSetJustEntered();
   
-  State state;
+  SystemState state;
   long stateTimestamp;
   bool justEntered;
 
   Context* pContext;
-  HWPlatform *pHw;
+  HWPlatform* pHw;
 
   float currentTemp;
   bool buttonReset;

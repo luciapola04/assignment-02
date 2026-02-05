@@ -10,7 +10,7 @@
 #define TIME_T4 2000
 
 AlarmTask::AlarmTask(HWPlatform* pHw, Context* pContext): 
-    pHw(pHw), pContext(pContext) {
+    pContext(pContext), pHw(pHw)  {
     setState(AT_NORMAL);
 }
   
@@ -85,7 +85,7 @@ void AlarmTask::tick(){
         if (pContext->checkResetButtonAndReset()){
             Logger.log(F("[ALARM] Reset pressed."));
             pContext->setAlarm(false); // Spegni flag alarm
-            pContext->setSystemState(NORMAL); // Ripristina stato sistema
+            pContext->setSystemState(AT_NORMAL); // Ripristina stato sistema
             setState(AT_NORMAL);
         }
         break;
@@ -94,7 +94,7 @@ void AlarmTask::tick(){
     }
 }
 
-void AlarmTask::setState(State s){
+void AlarmTask::setState(SystemState s){
     state = s;
     stateTimestamp = millis();
     justEntered = true;
