@@ -10,7 +10,7 @@ HangarTask::HangarTask(HWPlatform* pHW, Context* pContext, UserPanel* pUserPanel
   
 void HangarTask::tick(){
 
-    if (pContext->getSystemState() == ALARM && state != ALARM_STATE) {
+    if (pContext->isInAlarm() == ALARM && state != ALARM_STATE) {
         setState(ALARM_STATE);
     }
 
@@ -124,10 +124,6 @@ void HangarTask::tick(){
         case ALARM_STATE: {
             if (this->checkAndSetJustEntered()) {
                 Logger.log("ALLARME!!!");
-                pUserPanel->displayAlarm();
-                pHw->getL3()->switchOn();
-                pHw->getL1()->switchOff();
-
                 if(pContext->isDoorOpen()){
                     pContext->setDoorCommand(CMD_CLOSE);
                 }
@@ -135,9 +131,6 @@ void HangarTask::tick(){
 
             if (pContext->checkResetButtonAndReset()) {
                 Logger.log("RESETTING ALLARME");
-                pHw->getL3()->switchOff();
-                pHw->getL1()->switchOn();
-                pHw->getMotor()->off();
                 setState(STARTUP);
             }
             break;

@@ -9,8 +9,8 @@
 #define TIME_T3 5000
 #define TIME_T4 5000
 
-AlarmTask::AlarmTask(HWPlatform* pHw, Context* pContext): 
-    pContext(pContext), pHw(pHw)  {
+AlarmTask::AlarmTask(HWPlatform* pHw, Context* pContext, UserPanel* pUserPanel): 
+    pContext(pContext), pHw(pHw), pUserPanel(pUserPanel)  {
     setState(AT_NORMAL);
 }
   
@@ -78,14 +78,19 @@ void AlarmTask::tick(){
         if (checkAndSetJustEntered()){
             Logger.log(F("[ALARM] CRITICAL ALARM!"));
             pContext->setAlarm(true);
+            pUserPanel->displayAlarm();
+            pHw->getL3()->switchOn();
+            pHw->getL1()->switchOff();
             // Inviare messaggio via DRU (da gestire nel CommunicatorTask leggendo lo stato)
         }
 
         //solo con tasto RESET.
         if (pContext->checkResetButtonAndReset()){
             Logger.log(F("[ALARM] Reset pressed."));
-            pContext->setAlarm(false); // Spegni flag alarm
-            pContext->setSystemState(AT_NORMAL); // Ripristina stato sistema
+            pContext->setAlarm(false);
+            pHw->getL3()->switchOff();
+            pHw->getL1()->switchOn();
+            pHw->getMotor()->off(); 
             setState(AT_NORMAL);
         }
         break;

@@ -40,7 +40,7 @@ void setup() {
   Task* blinkingTask = new BlinkingTask(hw->getL2(),context);
   blinkingTask->init(150);
 
-  Task* alarmTask = new AlarmTask(hw,context);
+  Task* alarmTask = new AlarmTask(hw,context,userPanel);
   alarmTask->init(150);
 
   Task* doorTask = new DoorTask(hw->getMotor(),context);
