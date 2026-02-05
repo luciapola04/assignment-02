@@ -27,6 +27,7 @@ void setup() {
   hw->init();
 
   context = new Context(hw);
+  context->init();
 
   userPanel = new UserPanel(hw);
   userPanel->init();

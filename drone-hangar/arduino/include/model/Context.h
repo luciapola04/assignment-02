@@ -3,45 +3,36 @@
 #ifndef __CONTEXT__
 #define __CONTEXT__
 
-enum HangarState {STARTUP, IDLE, TAKE_OFF, LANDING, ALARM_STATE};
-enum SystemState { AT_NORMAL, CHECKING_PRE_ALARM, PRE_ALARM, CHECKING_ALARM, ALARM };
-enum DoorCommand { CMD_OPEN, CMD_CLOSE };
-enum DoorStatus { D_CLOSE, D_MOVING, D_OPEN };
-enum SonarState { S_OFF, S_ON };
-enum PirState { P_OFF, P_ON };
+enum HangarState {IDLE, TAKE_OFF, LANDING, ALARM_STATE};
+enum AlarmState { AT_NORMAL, CHECKING_PRE_ALARM, PRE_ALARM, CHECKING_ALARM, ALARM };
 
 class Context {
     public:
         Context(HWPlatform* pHW);
-        void reset();
+        void init();
 
-        void sync();
-        
-        void setSystemState(SystemState s);
-        SystemState getSystemState();
+        void setAlarmState(AlarmState s);
+        AlarmState getAlarmState();
 
         
     
         float getCurrentTemp();
+
+        //sonar
         float getDroneDistance();
         void setDroneDistance(float d);
+
+        //pir se il drone fuori
         void setDronePresent(bool present);
         bool isDronePresent();
+
+        //se il drone è dentro/fuori
         bool isDroneInside();
         void setDroneInside(bool inside);
 
-        DoorStatus getDoorStatus();
-        void setDoorStatus(DoorStatus doorStatus);
-        DoorCommand getDoorCommand();
-        void setDoorCommand(DoorCommand doorcommand);
+
+        void setDoorOpen(bool open);
         bool isDoorOpen();
-        bool isDoorClose();
-
-        void setSonar(SonarState s);
-        bool isSonarActive();
-
-        void setPir(PirState s);
-        bool isPirActive();
 
         bool isInPreAlarm();
         void setPreAlarm(bool preAlarm);
@@ -52,28 +43,21 @@ class Context {
         void setTakeOffRequest(bool req);
         bool isLandingRequest();
         void setLandingRequest(bool req);
+
+        bool isInLanding();
+        bool isInTakeOff();
+        void setLanding(bool landing);
+        void setTakeOff(bool takeoff);
+
         bool checkResetButtonAndReset();
         float getTemperature();
 
-        void openDoor();
-        void closeDoor();
-
-        void activateAlarm();
-        void deactivateAlarm();
-
     private:
-        bool started;
-        bool stopped;
-        SystemState systemState;
-        DoorCommand doorCommand;
-        DoorStatus doorStatus;
+        AlarmState alarmState;
         HWPlatform *pHW;
 
-        SonarState sonarState;
-
-        PirState pirState;
-
         bool dronePresent; 
+
         bool droneInside;  
         
         bool reqTakeOff;   
@@ -86,6 +70,11 @@ class Context {
 
         float currentTemp;
         float currentDistance;
+
+        bool doorOpen;
+
+        bool landing;
+        bool takeOff;
     };
     
     #endif

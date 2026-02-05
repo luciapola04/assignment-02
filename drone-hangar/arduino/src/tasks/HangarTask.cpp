@@ -5,25 +5,16 @@
 
 HangarTask::HangarTask(HWPlatform* pHW, Context* pContext, UserPanel* pUserPanel): 
     pHw(pHW), pContext(pContext), pUserPanel(pUserPanel) {
-    setState(STARTUP);
+    setState(IDLE);
 }
   
 void HangarTask::tick(){
 
-    if (pContext->isInAlarm() == ALARM && state != ALARM_STATE) {
+    if (pContext->isInAlarm() && state != ALARM_STATE) {
         setState(ALARM_STATE);
     }
 
     switch (state){   
-        
-        case STARTUP: {
-            if (this->checkAndSetJustEntered()) {
-                Logger.log("Dentro STARTUP");
-                pContext->reset();
-            }
-            setState(IDLE);
-            break;
-        }
 
         case IDLE: {
             if(this->checkAndSetJustEntered()) {
@@ -36,55 +27,56 @@ void HangarTask::tick(){
                 }
             }
 
-            bool flightOk = !pContext->isInPreAlarm();
+            if(!pContext->isInPreAlarm()){
 
-            if (pContext->isTakeOffRequest()) {
-                Logger.log("Richiesta TAKE OFF");
-                if (flightOk && pContext->isDroneInside()) {
-                    setState(TAKE_OFF);
-                } else {
-                    Logger.log("ERRORE: Drone gia' fuori!");
+                if (pContext->isTakeOffRequest()) {
+
+                    Logger.log("Richiesta TAKE OFF");
+                    if (pContext->isDroneInside()) {
+                        setState(TAKE_OFF);
+                    } else {
+                        Logger.log("ERRORE: Drone gia' fuori!");
+                    }
+                    pContext->setTakeOffRequest(false);
+
+                } else if (pContext->isLandingRequest()){
+
+                    pContext->setDronePresent(pHw->getPir()->isDetected() ? true : false);
+                    Logger.log("Richiesta LANDING");
+                    if (!pContext->isDroneInside() && pContext->isDronePresent()) {
+                        setState(LANDING);
+                    } else {
+                        Logger.log("ERRORE: Drone dentro o non rilevato dal PIR!");
+                    }
+                    pContext->setLandingRequest(false);
                 }
-                pContext->setTakeOffRequest(false);
-            } else if (pContext->isLandingRequest()) {
-                pContext->setDronePresent(pHw->getPir()->isDetected() ? true : false);
-                Logger.log("Richiesta LANDING");
-                if (flightOk && !pContext->isDroneInside() && pContext->isDronePresent()) {
-                    setState(LANDING);
-                } else {
-                    Logger.log("ERRORE: Drone dentro o non rilevato dal PIR!");
-                }
-                pContext->setLandingRequest(false);
             }
+
             break;
         }
 
         case TAKE_OFF: {
+
             if (this->checkAndSetJustEntered()) {
                 Logger.log("Dentro TAKEOFF");
                 pUserPanel->displayTakeOff();
-                pContext->setDoorCommand(CMD_OPEN);
+                pContext->setTakeOff(true);
             }
 
-            if (pContext->getDoorCommand() == CMD_OPEN) {
-                if (pContext->isDoorOpen()) {
+            if (pContext->isDoorOpen()) {
 
-                    float currentDist = pHw->getSonar()->getDistance();
-                    
-                    if (currentDist > D1) {
-                        if (elapsedTimeInState() > (T_DOOR_MOVE + T1)) {
-                            Logger.log("Drone Uscito. Chiudo...");
-                            pContext->setDoorCommand(CMD_CLOSE);
-                            pContext->setDroneInside(false);
-                        }
-                    } else {
-                        this->stateTimestamp = millis();
+                float currentDist = pHw->getSonar()->getDistance();
+                Logger.log("[WC] Dist: " + String(currentDist).substring(0,5));
+
+                if (currentDist > D1) {
+                    if (elapsedTimeInState() > T1) {
+                        Logger.log("Drone Uscito. Chiudo...");
+                        pContext->setDroneInside(false);
+                        pContext->setLanding(false);
+                        setState(IDLE);
                     }
-                }
-            } else if (pContext->getDoorCommand() == CMD_CLOSE) {
-                if (pContext->isDoorClose()) {
-                    Logger.log("Chiusura completata");
-                    setState(IDLE);
+                } else {
+                    this->stateTimestamp = millis();
                 }
             }
             break;
@@ -94,28 +86,23 @@ void HangarTask::tick(){
             if (this->checkAndSetJustEntered()) {
                 Logger.log("Dentro LANDING");
                 pUserPanel->displayLanding();
-                pContext->setDoorCommand(CMD_OPEN);
+                pContext->setLanding(true);
             }
 
-            if (pContext->getDoorCommand() == CMD_OPEN) {
-                if (pContext->isDoorOpen()) {
+            if (pContext->isDoorOpen()) {
 
-                    float currentDist = pHw->getSonar()->getDistance();
+                float currentDist = pHw->getSonar()->getDistance();
 
-                    if (currentDist < D2) {
-                        if (elapsedTimeInState() > (T_DOOR_MOVE + T2)) {
-                            Logger.log("Drone Entrato. Chiudo...");
-                            pContext->setDoorCommand(CMD_CLOSE);
-                            pContext->setDroneInside(true);
-                        }
-                    } else {
-                        this->stateTimestamp = millis();
+                if (currentDist < D2) {
+                    if (elapsedTimeInState() > T2) {
+
+                        Logger.log("Drone Entrato. Chiudo...");
+                        pContext->setLanding(false);
+                        pContext->setDroneInside(true);
+                        setState(IDLE);
                     }
-                }
-            } else if (pContext->getDoorCommand() == CMD_CLOSE) {
-                if (pContext->isDoorClose()) {
-                    Logger.log("Chiusura completata");
-                    setState(IDLE);
+                } else {
+                    this->stateTimestamp = millis();
                 }
             }
             break;
@@ -125,13 +112,14 @@ void HangarTask::tick(){
             if (this->checkAndSetJustEntered()) {
                 Logger.log("ALLARME!!!");
                 if(pContext->isDoorOpen()){
-                    pContext->setDoorCommand(CMD_CLOSE);
+                    pContext->setLanding(false);
+                    pContext->setTakeOff(false);
                 }
             }
 
-            if (pContext->checkResetButtonAndReset()) {
+            if (!pContext->isInAlarm()) {
                 Logger.log("RESETTING ALLARME");
-                setState(STARTUP);
+                setState(IDLE);
             }
             break;
 

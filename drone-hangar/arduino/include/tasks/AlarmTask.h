@@ -12,13 +12,13 @@ public:
   void tick();
 
 private:  
-  void setState(SystemState state);
+  void setState(AlarmState state);
   long elapsedTimeInState();
   void log(const String& msg);
   
   bool checkAndSetJustEntered();
   
-  SystemState state;
+  AlarmState state;
   long stateTimestamp;
   bool justEntered;
 

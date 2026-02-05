@@ -18,11 +18,12 @@ void AlarmTask::tick(){
     
     this->currentTemp = pHw->getTempSensor()->getTemperature();
     this->buttonReset = pHw->getButton()->isPressed();
+    /*
     static int localCounter = 0;    
     localCounter++;
     if (localCounter % 25 == 0){
         Logger.log("[WC] Temp: " + String(currentTemp).substring(0,5));
-    }
+    }*/
 
     switch (state){    
     case AT_NORMAL: {
@@ -99,7 +100,7 @@ void AlarmTask::tick(){
     }
 }
 
-void AlarmTask::setState(SystemState s){
+void AlarmTask::setState(AlarmState s){
     state = s;
     stateTimestamp = millis();
     justEntered = true;

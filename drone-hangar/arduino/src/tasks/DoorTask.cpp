@@ -12,33 +12,25 @@ DoorTask::DoorTask(ServoMotor* pMotor, Context* pContext):
 
 void DoorTask::tick(){
 
-    DoorCommand cmd = pContext->getDoorCommand();
+    bool doorAction = (pContext->isInLanding() || pContext->isInTakeOff());
 
     switch (state){
         case OPEN: {
             if (this->checkAndSetJustEntered()){
                 Logger.log(F("DOOR OPEN"));
-                pContext->setDoorStatus(D_OPEN);
+                pContext->setDoorOpen(true);
             }
 
-            if (cmd == CMD_CLOSE) {
+            if (!doorAction) {
                 setState(CLOSING);
             }
 
-            /*
-            if (pContext->isInAlarm() ||
-                (!pContext->isDroneInside() && pContext->isTakeOffRequest()) ||
-                (pContext->isDroneInside() && pContext->isLandingRequest())) {
-                setState(CLOSING);
-            }
-            */
         break;
     }
     
         case OPENING: {        
             if (this->checkAndSetJustEntered()){
                 Logger.log(F("DOOR IS OPENING"));
-                pContext->setDoorStatus(D_MOVING);
                 pMotor->on();
                 pMotor->setPosition(MOTOR_OPEN_POS);
             }
@@ -53,27 +45,18 @@ void DoorTask::tick(){
         case CLOSED: {   
             if (this->checkAndSetJustEntered()){
                 Logger.log(F("DOOR CLOSED"));
-                pContext->setDoorStatus(D_CLOSE);
+                pContext->setDoorOpen(false);
             }
 
-            if (cmd == OPEN) {
+            if (doorAction) {
                 setState(OPENING);
             }
-
-            /*
-            if (!pContext->isInAlarm() &&
-                (pContext->isDroneInside() && pContext->isTakeOffRequest()) ||
-                (!pContext->isDroneInside() && pContext->isLandingRequest())) {
-                setState(OPENING);
-            }
-            */
             break;
         }
 
         case CLOSING: {        
             if (this->checkAndSetJustEntered()){
                 Logger.log(F("DOOR IS CLOSING"));
-                pContext->setDoorStatus(D_MOVING);
                 pMotor->on();
                 pMotor->setPosition(MOTOR_CLOSE_POS);
             }
