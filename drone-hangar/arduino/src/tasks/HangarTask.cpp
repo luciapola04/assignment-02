@@ -3,7 +3,7 @@
 #include "kernel/Logger.h"
 #include "config.h"
 
-HangarTask::HangarTask(Context* pContext):pContext(pContext) {
+HangarTask::HangarTask(HWPlatform* pHW, Context* pContext): pHw(pHW) ,pContext(pContext) {
     setState(STARTUP);
 }
   
@@ -29,7 +29,6 @@ void HangarTask::tick(){
         case IDLE: {
             if(this->checkAndSetJustEntered()) {
                 Logger.log("Dentro IDLE");
-                pContext->setPir(P_ON);
             }
 
             bool flightOk = !pContext->isInPreAlarm();
@@ -43,6 +42,7 @@ void HangarTask::tick(){
                 }
                 pContext->setTakeOffRequest(false);
             } else if (pContext->isLandingRequest()) {
+                pContext->setDronePresent(pHw->getPir()->isDetected() ? true : false);
                 Logger.log("Richiesta LANDING");
                 if (flightOk && !pContext->isDroneInside() && pContext->isDronePresent()) {
                     setState(LANDING);
@@ -58,24 +58,26 @@ void HangarTask::tick(){
             if (this->checkAndSetJustEntered()) {
                 Logger.log("Dentro TAKEOFF");
                 pContext->setDoorCommand(CMD_OPEN);
-                pContext->setSonar(S_ON);
-                pContext->setPir(P_OFF);
             }
 
             if (pContext->getDoorCommand() == CMD_OPEN) {
                 if (pContext->isDoorOpen()) {
-                    if (pContext->getDroneDistance() > D1) {
+
+                    float currentDist = pHw->getSonar()->getDistance();
+                    
+                    if (currentDist > D1) {
                         if (elapsedTimeInState() > (T_DOOR_MOVE + T1)) {
                             Logger.log("Drone Uscito. Chiudo...");
                             pContext->setDoorCommand(CMD_CLOSE);
                             pContext->setDroneInside(false);
                         }
+                    } else {
+                        this->stateTimestamp = millis();
                     }
                 }
             } else if (pContext->getDoorCommand() == CMD_CLOSE) {
                 if (pContext->isDoorClose()) {
                     Logger.log("Chiusura completata");
-                    pContext->setSonar(S_OFF);
                     setState(IDLE);
                 }
             }
@@ -85,25 +87,27 @@ void HangarTask::tick(){
         case LANDING: {
             if (this->checkAndSetJustEntered()) {
                 Logger.log("Dentro LANDING");
-                pContext->setSonar(S_ON);
                 pContext->setDoorCommand(CMD_OPEN);
             }
 
             if (pContext->getDoorCommand() == CMD_OPEN) {
                 if (pContext->isDoorOpen()) {
-                    if (pContext->getDroneDistance() < D2) {
+
+                    float currentDist = pHw->getSonar()->getDistance();
+
+                    if (currentDist < D2) {
                         if (elapsedTimeInState() > (T_DOOR_MOVE + T2)) {
                             Logger.log("Drone Entrato. Chiudo...");
                             pContext->setDoorCommand(CMD_CLOSE);
                             pContext->setDroneInside(true);
                         }
+                    } else {
+                        this->stateTimestamp = millis();
                     }
                 }
             } else if (pContext->getDoorCommand() == CMD_CLOSE) {
                 if (pContext->isDoorClose()) {
                     Logger.log("Chiusura completata");
-                    pContext->setSonar(S_OFF);
-                    pContext->setPir(P_OFF);
                     setState(IDLE);
                 }
             }
@@ -113,13 +117,19 @@ void HangarTask::tick(){
         case ALARM_STATE: {
             if (this->checkAndSetJustEntered()) {
                 Logger.log("ALLARME!!!");
-                pContext->activateAlarm();
-                pContext->setDoorCommand(CMD_CLOSE);
+                pHw->getL3()->switchOn();
+                pHw->getL1()->switchOff();
+
+                if(pContext->isDoorOpen()){
+                    pContext->setDoorCommand(CMD_CLOSE);
+                }
             }
 
             if (pContext->checkResetButtonAndReset()) {
                 Logger.log("RESETTING ALLARME");
-                pContext->deactivateAlarm();
+                pHw->getL3()->switchOff();
+                pHw->getL1()->switchOn();
+                pHw->getMotor()->off();
                 setState(STARTUP);
             }
             break;

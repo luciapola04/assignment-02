@@ -9,14 +9,20 @@
 #define TIME_T3 3000
 #define TIME_T4 2000
 
-AlarmTask::AlarmTask(Context* pContext): 
-    pContext(pContext) {
+AlarmTask::AlarmTask(HWPlatform* pHw, Context* pContext): 
+    pHw(pHw), pContext(pContext) {
     setState(AT_NORMAL);
 }
   
 void AlarmTask::tick(){
     
-    this->pContext->sync();
+    this->currentTemp = pHw->getTempSensor()->getTemperature();
+    this->buttonReset = pHw->getButton()->isPressed();
+    static int localCounter = 0;    
+    localCounter++;
+    if (localCounter % 25 == 0){
+        Logger.log("[WC] Temp: " + String(currentTemp).substring(0,5));
+    }
 
     switch (state){    
     case AT_NORMAL: {

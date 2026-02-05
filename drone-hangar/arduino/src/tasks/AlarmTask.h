@@ -8,7 +8,7 @@
 class AlarmTask: public Task {
 
 public:
-  AlarmTask(Context* pContext); 
+  AlarmTask(HWPlatform* pHw,Context* pContext); 
   void tick();
 
 private:  
@@ -23,6 +23,10 @@ private:
   bool justEntered;
 
   Context* pContext;
+  HWPlatform *pHw;
+
+  float currentTemp;
+  bool buttonReset;
 };
 
 #endif

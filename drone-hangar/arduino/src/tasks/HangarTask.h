@@ -8,7 +8,7 @@
 
 class HangarTask: public Task {
 public:
-  HangarTask(Context* pContext);
+  HangarTask(HWPlatform* pHw,Context* pContext);
   virtual void tick();
 
 private:
@@ -17,6 +17,7 @@ private:
   bool checkAndSetJustEntered();
 
   Context* pContext;
+  HWPlatform* pHw;
 
   bool isClosing;
   long doorTimer;

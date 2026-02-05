@@ -17,6 +17,7 @@ HWPlatform::HWPlatform(){
 }
 
 void HWPlatform::init(){
+  pir->calibrate();
   L1->switchOff();
   L2->switchOff();
   L3->switchOff();
