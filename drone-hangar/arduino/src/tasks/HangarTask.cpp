@@ -135,10 +135,8 @@ void HangarTask::tick(){
             break;
 
         }
-    }
+   }
 }
-
-// --- Funzioni di supporto FSM ---
 
 void HangarTask::setState(HangarState s){
     state = s;

@@ -1,10 +1,10 @@
-package esiot.assignment_02;
+package esiot.assignment_02.view;
 
 import java.util.Date;
 
 import javax.swing.*;
 
-class LogView extends JFrame  {
+public class LogView extends JFrame  {
 
 	private JTextArea log;
 

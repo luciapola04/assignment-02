@@ -1,4 +1,8 @@
-package esiot.assignment_02;
+package esiot.assignment_02.controller;
+
+import esiot.assignment_02.model.SerialCommChannel;
+import esiot.assignment_02.view.DashboardView;
+import esiot.assignment_02.view.LogView;
 
 public class DashboardController  {
 
@@ -12,6 +16,7 @@ public class DashboardController  {
 	public DashboardController(String port, DashboardView view, LogView logger) throws Exception {
 		this.view = view;
 		this.logger = logger;
+		view.registerController(this);
 		
 		channel = new SerialCommChannel(port,115200);		
 		new MonitoringAgent(channel,view,logger).start();
@@ -22,13 +27,13 @@ public class DashboardController  {
 	
 	}
 	
-	/*
-	public void notifyMaintenanceDone() {
-		  channel.sendMsg(MSG_MAINTENANCE_DONE);
+	
+	public void notifyTakeOff() {
+		  channel.sendMsg("takeoff-req");
 	}
 
-	public void notifyDischarge() {
-		  channel.sendMsg(MSG_DISCHARGE);
-	}*/
+	public void notifyLanding() {
+		  channel.sendMsg("landing-req");
+	}
 
 }

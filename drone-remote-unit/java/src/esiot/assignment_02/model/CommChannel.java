@@ -1,4 +1,4 @@
-package esiot.assignment_02;
+package esiot.assignment_02.model;
 /**
  * Simple interface for an async msg communication channel
  * @author aricci
