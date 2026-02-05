@@ -12,13 +12,6 @@ public:
   void tick();
 
 private:  
-  enum State { 
-      NORMAL, 
-      CHECKING_PRE_ALARM, // Sta contando T3
-      PRE_ALARM,          // Temp1 superata per > T3
-      CHECKING_ALARM,     // Sta contando T4
-      ALARM               // Temp2 superata per > T4
-  };
   void setState(State state);
   long elapsedTimeInState();
   void log(const String& msg);

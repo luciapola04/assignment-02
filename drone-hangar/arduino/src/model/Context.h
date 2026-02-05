@@ -2,7 +2,9 @@
 #ifndef __CONTEXT__
 #define __CONTEXT__
 
+enum HangarState {STARTUP, IDLE, TAKE_OFF, LANDING, ALARM_STATE};
 enum SystemState { NORMAL, PRE_ALARM, ALARM };
+enum State { AT_NORMAL, CHECKING_PRE_ALARM, PRE_ALARM, CHECKING_ALARM, ALARM };
 enum DoorCommand { CMD_OPEN, CMD_CLOSE };
 enum DoorStatus { D_CLOSE, D_MOVING, D_OPEN };
 enum SonarState { S_OFF, S_ON };

@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include "config.h"
 #include "kernel/Logger.h"
+#include "Context.h"
 
 #define TEMP1 20.0
 #define TEMP2 40.0 
@@ -10,7 +11,7 @@
 
 AlarmTask::AlarmTask(Context* pContext): 
     pContext(pContext) {
-    setState(NORMAL);
+    setState(AT_NORMAL);
 }
   
 void AlarmTask::tick(){
@@ -18,7 +19,7 @@ void AlarmTask::tick(){
     this->pContext->sync();
 
     switch (state){    
-    case NORMAL: {
+    case AT_NORMAL: {
         if (checkAndSetJustEntered()){
             Logger.log(F("[ALARM] System Normal"));
             pContext->setPreAlarm(false);
@@ -35,7 +36,7 @@ void AlarmTask::tick(){
     case CHECKING_PRE_ALARM: {
         
         if (this->pContext->getCurrentTemp() < TEMP1){
-            setState(NORMAL);
+            setState(AT_NORMAL);
         } 
         else if (elapsedTimeInState() > TIME_T3){
             setState(PRE_ALARM);
@@ -49,7 +50,7 @@ void AlarmTask::tick(){
             pContext->setPreAlarm(true);
         }
         if (this->pContext->getCurrentTemp() < TEMP1){
-            setState(NORMAL);
+            setState(AT_NORMAL);
         }
         else if (this->pContext->getCurrentTemp() >= TEMP2){
             setState(CHECKING_ALARM);
@@ -77,7 +78,9 @@ void AlarmTask::tick(){
         //solo con tasto RESET.
         if (pContext->checkResetButtonAndReset()){
             Logger.log(F("[ALARM] Reset pressed."));
-            setState(NORMAL);
+            pContext->setAlarm(false); // Spegni flag alarm
+            pContext->setSystemState(NORMAL); // Ripristina stato sistema
+            setState(AT_NORMAL);
         }
         break;
     }

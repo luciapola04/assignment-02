@@ -5,7 +5,6 @@
 #include "HWPlatform.h"
 #include "Context.h"
 
-enum HangarState {STARTUP, IDLE, TAKE_OFF, LANDING, ALARM_STATE};
 
 class HangarTask: public Task {
 public:
