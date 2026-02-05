@@ -1,4 +1,5 @@
 #include "HWPlatform.h"
+#include "UserPanel.h"
 #ifndef __CONTEXT__
 #define __CONTEXT__
 
@@ -60,8 +61,6 @@ class Context {
         void activateAlarm();
         void deactivateAlarm();
 
-
-    
     private:
         bool started;
         bool stopped;

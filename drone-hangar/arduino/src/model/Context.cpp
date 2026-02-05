@@ -2,7 +2,7 @@
 #include <kernel/Logger.h>
 
 Context::Context(HWPlatform* pHW){
-    this->pHW=pHW;
+    this->pHW = pHW;
     this->reset();
 }
 
@@ -41,6 +41,7 @@ void Context::sync(){
   }
 
 }
+
 
 /*
 

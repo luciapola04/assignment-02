@@ -3,8 +3,8 @@
 #include "kernel/Logger.h"
 #include "config.h"
 
-HangarTask::HangarTask(HWPlatform* pHW, Context* pContext): 
-    pHw(pHW), pContext(pContext) {
+HangarTask::HangarTask(HWPlatform* pHW, Context* pContext, UserPanel* pUserPanel): 
+    pHw(pHW), pContext(pContext), pUserPanel(pUserPanel) {
     setState(STARTUP);
 }
   
@@ -56,6 +56,7 @@ void HangarTask::tick(){
         case TAKE_OFF: {
             if (this->checkAndSetJustEntered()) {
                 Logger.log("Dentro TAKEOFF");
+                pUserPanel->displayTakeOff();
                 pContext->setDoorCommand(CMD_OPEN);
             }
 
@@ -69,6 +70,7 @@ void HangarTask::tick(){
                             Logger.log("Drone Uscito. Chiudo...");
                             pContext->setDoorCommand(CMD_CLOSE);
                             pContext->setDroneInside(false);
+                            pUserPanel->displayDroneOut();
                         }
                     } else {
                         this->stateTimestamp = millis();
@@ -86,6 +88,7 @@ void HangarTask::tick(){
         case LANDING: {
             if (this->checkAndSetJustEntered()) {
                 Logger.log("Dentro LANDING");
+                pUserPanel->displayLanding();
                 pContext->setDoorCommand(CMD_OPEN);
             }
 
@@ -99,6 +102,7 @@ void HangarTask::tick(){
                             Logger.log("Drone Entrato. Chiudo...");
                             pContext->setDoorCommand(CMD_CLOSE);
                             pContext->setDroneInside(true);
+                            pUserPanel->displayDroneInside();
                         }
                     } else {
                         this->stateTimestamp = millis();
@@ -116,6 +120,7 @@ void HangarTask::tick(){
         case ALARM_STATE: {
             if (this->checkAndSetJustEntered()) {
                 Logger.log("ALLARME!!!");
+                pUserPanel->displayAlarm();
                 pHw->getL3()->switchOn();
                 pHw->getL1()->switchOff();
 
