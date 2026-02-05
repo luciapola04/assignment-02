@@ -33,18 +33,13 @@ void Context::reset(){
 void Context::sync(){
   
   this->currentTemp = pHW->getTempSensor()->getTemperature();
-  this->currentDistance = pHW->getSonar()->getDistance();
   this->buttonReset = pHW->getButton()->isPressed();
-  if (currentDistance == NO_OBJ_DETECTED){
-    currentDistance = 1000; //da cambiare distanza quando non rileva nulla
-  }
-
   static int localCounter = 0;    
   localCounter++;
   if (localCounter % 25 == 0){
     Logger.log("[WC] Temp: " + String(currentTemp).substring(0,5) + " Dist: " + String(currentDistance));
   }
-  
+
 }
 
 /*
