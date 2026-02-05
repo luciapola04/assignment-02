@@ -3,7 +3,7 @@
 
 #include "ButtonImpl.h"
 #include "config.h"
-#include "LcdImpl.h"
+#include <LiquidCrystal_I2C.h>
 #include "Led.h"
 #include "Pir.h"
 #include "ServoMotorImpl.h"
@@ -19,7 +19,7 @@ public:
   void test();
 
   Button* getButton();
-  Lcd* getLcd();
+  LiquidCrystal_I2C* getLcd();
   Led* getL1();
   Led* getL2();
   Led* getL3();
@@ -30,7 +30,7 @@ public:
 
 private:
   Button* resetButton;
-  Lcd* lcd;
+  LiquidCrystal_I2C* lcd;
   Led* L1;
   Led* L2;
   Led* L3;

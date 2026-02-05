@@ -6,7 +6,7 @@ void wakeUp() {}
 
 HWPlatform::HWPlatform(){
   resetButton = new ButtonImpl(RESET_PIN);
-  lcd         = new LcdImpl(0x27, 16, 2); 
+  lcd = new  LiquidCrystal_I2C(0x27,20,4);
   L1          = new Led(L1_PIN);
   L2          = new Led(L2_PIN);
   L3          = new Led(L3_PIN);
@@ -27,7 +27,7 @@ Button* HWPlatform::getButton(){
   return this->resetButton;
 }
 
-Lcd* HWPlatform::getLcd() {
+LiquidCrystal_I2C* HWPlatform::getLcd() {
   return this->lcd;
 }
 
