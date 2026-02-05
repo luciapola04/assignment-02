@@ -13,6 +13,7 @@
 
 HWPlatform* hw;
 Context* context;
+UserPanel* userPanel;
 
 Scheduler sched;
 
@@ -27,10 +28,13 @@ void setup() {
 
   context = new Context(hw);
 
+  userPanel = new UserPanel(hw);
+  userPanel->init();
+
   Task* serialTask = new SerialMonitorTask(context);
   serialTask->init(150);
 
-  Task* hangarTask = new HangarTask(hw,context);
+  Task* hangarTask = new HangarTask(hw,context,userPanel);
   hangarTask->init(150);
 
   Task* blinkingTask = new BlinkingTask(hw->getL2(),context);

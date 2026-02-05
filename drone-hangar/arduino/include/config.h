@@ -15,7 +15,7 @@
 #define MOTOR_CLOSE_POS 0
 
 #define MAX_D_DIST 100.0
-#define T_DOOR_MOVE 2000
+#define T_DOOR_MOVE 5000
 #define BLINK_PERIOD 500
 #define D1 20
 #define D2 40

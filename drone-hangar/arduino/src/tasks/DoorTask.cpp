@@ -3,11 +3,6 @@
 #include "config.h"
 #include "kernel/Logger.h"
 
-#define FWD_TIME 2000
-#define BWD_TIME 1000
-#define START_TIME 100
-#define RESET_TIME 500
-
 
 
 DoorTask::DoorTask(ServoMotor* pMotor, Context* pContext): 
