@@ -76,12 +76,19 @@ void Context::deactivateAlarm() {
 */
 
 bool Context::checkResetButtonAndReset(){
-    if(buttonReset) buttonReset=false; return true;
+    if(buttonReset) {
+      buttonReset=false; 
+      return true;
+    }
     return buttonReset;
 }
 
-void Context::setDoorCommand(DoorCommand DoorCommand) { this->doorCommand = doorCommand; }
+void Context::setDoorCommand(DoorCommand doorCommand) { this->doorCommand = doorCommand; }
 DoorCommand Context::getDoorCommand() { return this->doorCommand; }
+
+void Context::setDoorStatus(DoorStatus doorStatus) { this->doorStatus = doorStatus; }
+DoorStatus Context::getDoorStatus() { return this->doorStatus; }
+
 bool Context::isDoorOpen() { return this->doorStatus == D_OPEN; }
 bool Context::isDoorClose() { return this->doorStatus == D_CLOSE; }
 

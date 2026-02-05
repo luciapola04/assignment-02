@@ -3,7 +3,9 @@
 #include "Context.h"
 #include "tasks/HangarTask.h"
 #include "tasks/SerialMonitorTask.h"
+#include "tasks/AlarmTask.h"
 #include "tasks/BlinkingTask.h"
+#include "tasks/DoorTask.h"
 #include "kernel/Scheduler.h"
 #include "kernel/Logger.h"
 
@@ -28,7 +30,25 @@ void setup() {
   Task* serialTask = new SerialMonitorTask(context);
   serialTask->init(150);
 
+  Task* hangarTask = new HangarTask(hw,context);
+  hangarTask->init(150);
+
+  Task* blinkingTask = new BlinkingTask(hw->getL2(),context);
+  blinkingTask->init(150);
+
+  Task* alarmTask = new AlarmTask(hw,context);
+  alarmTask->init(150);
+
+  Task* doorTask = new DoorTask(hw->getMotor(),context);
+  doorTask->init(150);
+
+  
+
   sched.addTask(serialTask);
+  sched.addTask(hangarTask);
+  sched.addTask(blinkingTask);
+  sched.addTask(alarmTask);
+  sched.addTask(doorTask);
 }
 
 void loop() {
