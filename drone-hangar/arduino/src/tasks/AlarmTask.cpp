@@ -28,7 +28,6 @@ void AlarmTask::tick(){
             pContext->setAlarm(false);
         }
         
-        // Se supera Temp1, inizia a contare il tempo T3
         if (this->currentTemp >= Temp1){
             setState(CHECKING_PRE_ALARM);
         }

@@ -1,5 +1,4 @@
 #include "model/Context.h"
-#include <kernel/Logger.h>
 
 Context::Context(HWPlatform* pHW){
     this->pHW = pHW;

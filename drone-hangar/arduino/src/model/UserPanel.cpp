@@ -1,7 +1,5 @@
 #include "model/UserPanel.h"
 #include <Arduino.h>
-#include "config.h"
-#include "kernel/Logger.h"
 #include "model/HWPlatform.h"
 
 UserPanel::UserPanel(HWPlatform* pHW) {

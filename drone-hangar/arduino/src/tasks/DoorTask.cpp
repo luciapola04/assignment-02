@@ -3,8 +3,6 @@
 #include "config.h"
 #include "kernel/Logger.h"
 
-
-
 DoorTask::DoorTask(ServoMotor* pMotor, Context* pContext): 
     pMotor(pMotor), pContext(pContext){
     setState(CLOSED);

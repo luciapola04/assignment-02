@@ -1,9 +1,8 @@
-#ifndef __CONTAINER_HEALTH_CHECK_TASK__
-#define __CONTAINER_HEALTH_CHECK_TASK__
+#ifndef __ALARM_TASK__
+#define __ALARM_TASK__
 
 #include "kernel/Task.h"
-#include <WString.h>
-#include <model/Context.h>
+#include "model/Context.h"
 
 class AlarmTask: public Task {
 

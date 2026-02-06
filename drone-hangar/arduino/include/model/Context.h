@@ -14,22 +14,16 @@ class Context {
         void setAlarmState(AlarmState s);
         AlarmState getAlarmState();
 
-        
-    
         float getCurrentTemp();
 
-        //sonar
         float getDroneDistance();
         void setDroneDistance(float d);
 
-        //pir se il drone fuori
         void setDronePresent(bool present);
         bool isDronePresent();
 
-        //se il drone è dentro/fuori
         bool isDroneInside();
         void setDroneInside(bool inside);
-
 
         void setDoorOpen(bool open);
         bool isDoorOpen();

@@ -1,5 +1,5 @@
 #include "tasks/HangarTask.h"
-#include "Arduino.h"
+#include <Arduino.h>
 #include "kernel/Logger.h"
 #include "config.h"
 
@@ -129,7 +129,6 @@ void HangarTask::tick(){
     }
 }
 
-// --- Funzioni di supporto FSM ---
 
 void HangarTask::setState(HangarState s){
     state = s;
