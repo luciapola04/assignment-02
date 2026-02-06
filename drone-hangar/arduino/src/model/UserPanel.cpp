@@ -2,8 +2,8 @@
 #include <Arduino.h>
 #include "model/HWPlatform.h"
 
-UserPanel::UserPanel(HWPlatform* pHW) {
-    pLcd = pHW->getLcd();
+UserPanel::UserPanel(LiquidCrystal_I2C* lcd) {
+    pLcd = lcd;
 }
 
 void UserPanel::init(){
@@ -22,32 +22,16 @@ void UserPanel::turnOffDisplay(){
   pLcd->noDisplay();
 }
 
-void UserPanel::displayDroneInside(){
+void UserPanel::printMessage(String message){
   pLcd->clear();
   pLcd->setCursor(0, 0); 
-  pLcd->print("DRONE INSIDE");
+  pLcd->print(message);
+
 }
 
-void UserPanel::displayTakeOff(){
+void UserPanel::printMessage(int x,int y,String message){
   pLcd->clear();
-  pLcd->setCursor(0, 0); 
-  pLcd->print("TAKE OFF");
-}
+  pLcd->setCursor(x, y); 
+  pLcd->print(message);
 
-void UserPanel::displayDroneOut(){
-  pLcd->clear();
-  pLcd->setCursor(0, 0); 
-  pLcd->print("DRONE OUT");
-}
-
-void UserPanel::displayLanding(){
-  pLcd->clear();
-  pLcd->setCursor(0, 0); 
-  pLcd->print("LANDING");
-}
-
-void UserPanel::displayAlarm(){
-  pLcd->clear();
-  pLcd->setCursor(0, 0); 
-  pLcd->print("ALARM");
 }

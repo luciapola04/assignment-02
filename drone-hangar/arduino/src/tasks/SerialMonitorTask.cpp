@@ -13,6 +13,17 @@ void SerialMonitorTask::init(int period){
 
 void SerialMonitorTask::tick(){
   
+  
+  checkSerialMonitor();
+
+  if (millis() - this->lastTimeUpdate > 500) {
+        sendSystemState();
+        this->lastTimeUpdate = millis();
+  }
+}
+
+void SerialMonitorTask::checkSerialMonitor(){
+
   if (MsgService.isMsgAvailable()) {
     Msg* msg = MsgService.receiveMsg();    
     if (msg != NULL){
@@ -20,7 +31,6 @@ void SerialMonitorTask::tick(){
       content.trim();
 
       Logger.log("Received cmd: " + content);
-
 
       if (content == "takeoff-req"){
         pContext->setTakeOffRequest(true);
@@ -32,7 +42,6 @@ void SerialMonitorTask::tick(){
       delete msg; 
     }
   }
-  sendSystemState();
 }
 
 void SerialMonitorTask::sendSystemState(){
@@ -66,6 +75,5 @@ void SerialMonitorTask::sendSystemState(){
 
   String msg = "dh:st:" + droneStateStr + ":" + hangarStateStr + ":" + String(distance);
 
-  
   MsgService.sendMsg(msg);
 }

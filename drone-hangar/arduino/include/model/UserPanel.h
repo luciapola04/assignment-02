@@ -8,12 +8,15 @@
 class UserPanel {
 
 public:
-  UserPanel(HWPlatform* pHW);
+  UserPanel(LiquidCrystal_I2C* pHW);
 
   void init();
 
   void turnOffDisplay();
   void turnOnDisplay();
+
+  void printMessage(String message);
+  void printMessage(int x,int y,String message);
 
   void displayDroneInside();
   void displayTakeOff();

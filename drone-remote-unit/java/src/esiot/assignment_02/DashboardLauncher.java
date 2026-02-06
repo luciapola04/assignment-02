@@ -5,13 +5,6 @@ import esiot.assignment_02.view.DashboardView;
 import esiot.assignment_02.view.LogView;
 import jssc.SerialPortList;
 
-/**
- * 
- * An example of Dashboard for the Sweeping Case Study
- * 
- * Partially implemented.
- * 
- */
 class DashboardLauncher {
 
 	static DashboardView view = null;

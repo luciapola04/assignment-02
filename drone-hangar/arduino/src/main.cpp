@@ -29,7 +29,7 @@ void setup() {
   context = new Context(hw);
   context->init();
 
-  userPanel = new UserPanel(hw);
+  userPanel = new UserPanel(hw->getLcd());
   userPanel->init();
 
   Task* serialTask = new SerialMonitorTask(context);
@@ -41,11 +41,11 @@ void setup() {
   Task* blinkingTask = new BlinkingTask(hw->getL2(),context);
   blinkingTask->init(150);
 
-  Task* alarmTask = new AlarmTask(hw,context,userPanel);
+  Task* alarmTask = new AlarmTask(hw,context);
   alarmTask->init(150);
 
   Task* doorTask = new DoorTask(hw->getMotor(),context);
-  doorTask->init(50);
+  doorTask->init(100);
 
   
 

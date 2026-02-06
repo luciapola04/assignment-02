@@ -6,8 +6,8 @@
 
 
 
-AlarmTask::AlarmTask(HWPlatform* pHw, Context* pContext, UserPanel* pUserPanel): 
-    pContext(pContext), pHw(pHw), pUserPanel(pUserPanel)  {
+AlarmTask::AlarmTask(HWPlatform* pHw, Context* pContext): 
+    pContext(pContext), pHw(pHw) {
     setState(AT_NORMAL);
 }
   
@@ -73,7 +73,6 @@ void AlarmTask::tick(){
         if (checkAndSetJustEntered()){
             Logger.log(F("[ALARM] CRITICAL ALARM!"));
             pContext->setAlarm(true);
-            pUserPanel->displayAlarm();
             pHw->getL3()->switchOn();
             pHw->getL1()->switchOff();
         }

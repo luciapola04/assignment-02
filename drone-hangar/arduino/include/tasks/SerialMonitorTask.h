@@ -15,6 +15,8 @@ public:
 private:
     Context* pContext;
     void sendSystemState();
+    void checkSerialMonitor();
+    long lastTimeUpdate=0;
 };
 
 #endif
