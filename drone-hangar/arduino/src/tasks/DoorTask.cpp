@@ -19,7 +19,7 @@ void DoorTask::tick(){
                 pContext->setDoorOpen(true);
             }
 
-            if (!doorAction) {
+            if (!doorAction || pContext->isInAlarm()) {
                 setState(CLOSING);
             }
 
