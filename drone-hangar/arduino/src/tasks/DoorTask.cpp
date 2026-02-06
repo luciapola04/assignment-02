@@ -28,12 +28,16 @@ void DoorTask::tick(){
     
         case OPENING: {        
             if (this->checkAndSetJustEntered()){
-                Logger.log(F("DOOR IS OPENING"));
+                Logger.log(F("DOOR IS OPENING..."));
                 pMotor->on();
-                pMotor->setPosition(MOTOR_OPEN_POS);
             }
             
-            if (this->elapsedTimeInState() > T_DOOR_MOVE) {
+            long elapsed = this->elapsedTimeInState();
+            if (elapsed < T_DOOR_MOVE) {
+                int pos = map(elapsed, 0, T_DOOR_MOVE, MOTOR_CLOSE_POS, MOTOR_OPEN_POS);
+                pMotor->setPosition(pos);
+            } else {
+                pMotor->setPosition(MOTOR_OPEN_POS);
                 pMotor->off();
                 setState(OPEN);
             }
@@ -54,12 +58,16 @@ void DoorTask::tick(){
 
         case CLOSING: {        
             if (this->checkAndSetJustEntered()){
-                Logger.log(F("DOOR IS CLOSING"));
+                Logger.log(F("DOOR IS CLOSING..."));
                 pMotor->on();
-                pMotor->setPosition(MOTOR_CLOSE_POS);
             }
             
-            if (this->elapsedTimeInState() > T_DOOR_MOVE) {
+            long elapsed = this->elapsedTimeInState();
+            if (elapsed < T_DOOR_MOVE) {
+                int pos = map(elapsed, 0, T_DOOR_MOVE, MOTOR_OPEN_POS, MOTOR_CLOSE_POS);
+                pMotor->setPosition(pos);
+            } else {
+                pMotor->setPosition(MOTOR_CLOSE_POS);
                 pMotor->off();
                 setState(CLOSED);
             }

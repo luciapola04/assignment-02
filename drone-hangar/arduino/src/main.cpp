@@ -45,7 +45,7 @@ void setup() {
   alarmTask->init(150);
 
   Task* doorTask = new DoorTask(hw->getMotor(),context);
-  doorTask->init(150);
+  doorTask->init(50);
 
   
 
