@@ -12,8 +12,8 @@ HWPlatform::HWPlatform(){
   L3          = new Led(L3_PIN);
   servoMotor  = new ServoMotorImpl(MOTOR_PIN);
   pir         = new Pir(PIR_PIN);
-  sonar       = new Sonar(TRIG_PIN, ECHO_PIN, 20000); //maxTime 20000 per rilevare ogg fino a 3 metri
-  tempSensor  = new TempSensorLM35(TEMP_PIN); 
+  sonar       = new Sonar(ECHO_PIN, TRIG_PIN, 20000); //maxTime 20000 per rilevare ogg fino a 3 metri
+  tempSensor  = new TempSensorTMP36(TEMP_PIN); 
 }
 
 void HWPlatform::init(){

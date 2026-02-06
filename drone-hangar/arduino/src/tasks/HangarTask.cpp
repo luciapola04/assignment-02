@@ -92,8 +92,9 @@ void HangarTask::tick(){
             if (pContext->isDoorOpen()) {
 
                 float currentDist = pHw->getSonar()->getDistance();
+                Logger.log("[WC] Dist: " + String(currentDist).substring(0,5));
 
-                if (currentDist < D2) {
+                if (currentDist < D2 && currentDist >=0) {
                     if (elapsedTimeInState() > T2) {
 
                         Logger.log("Drone Entrato. Chiudo...");

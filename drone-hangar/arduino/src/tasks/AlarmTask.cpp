@@ -4,10 +4,10 @@
 #include "kernel/Logger.h"
 #include "model/Context.h"
 
-#define TEMP1 65.0
-#define TEMP2 70.0 
-#define TIME_T3 5000
-#define TIME_T4 5000
+#define TEMP1 55.0
+#define TEMP2 60.0 
+#define TIME_T3 3000
+#define TIME_T4 3000
 
 AlarmTask::AlarmTask(HWPlatform* pHw, Context* pContext, UserPanel* pUserPanel): 
     pContext(pContext), pHw(pHw), pUserPanel(pUserPanel)  {
@@ -17,13 +17,11 @@ AlarmTask::AlarmTask(HWPlatform* pHw, Context* pContext, UserPanel* pUserPanel):
 void AlarmTask::tick(){
     
     this->currentTemp = pHw->getTempSensor()->getTemperature();
-    this->buttonReset = pHw->getButton()->isPressed();
-    /*
     static int localCounter = 0;    
     localCounter++;
     if (localCounter % 25 == 0){
         Logger.log("[WC] Temp: " + String(currentTemp).substring(0,5));
-    }*/
+    }
 
     switch (state){    
     case AT_NORMAL: {
