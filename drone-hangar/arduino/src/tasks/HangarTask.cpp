@@ -21,15 +21,16 @@ void HangarTask::tick(){
                 Logger.log("Dentro IDLE");
 
                 if(pContext->isDroneInside()) {
-                    pUserPanel->printMessage("DRONE INSIDE");
+                    pUserPanel->displayDroneInside();
                 } else {
-                    pUserPanel->printMessage("DRONE OUTSIDE");
+                    pUserPanel->displayDroneOut();
                 }
             }
 
             if(!pContext->isInPreAlarm()){
 
                 if (pContext->isTakeOffRequest()) {
+
                     Logger.log("Richiesta TAKE OFF");
                     if (pContext->isDroneInside()) {
                         setState(TAKE_OFF);
@@ -58,7 +59,7 @@ void HangarTask::tick(){
 
             if (this->checkAndSetJustEntered()) {
                 Logger.log("Dentro TAKEOFF");
-                pUserPanel->printMessage("TAKE OFF");
+                pUserPanel->displayTakeOff();
                 pContext->setTakeOff(true);
             }
 
@@ -91,7 +92,7 @@ void HangarTask::tick(){
         case LANDING: {
             if (this->checkAndSetJustEntered()) {
                 Logger.log("Dentro LANDING");
-                pUserPanel->printMessage("LANDING");
+                pUserPanel->displayLanding();
                 pContext->setLanding(true);
             }
 
@@ -131,6 +132,7 @@ void HangarTask::tick(){
             }
 
             if (!pContext->isInAlarm()) {
+                Logger.log("RESETTING ALLARME");
                 setState(IDLE);
             }
             break;
