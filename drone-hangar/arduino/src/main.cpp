@@ -26,7 +26,7 @@ void setup() {
   hw = new HWPlatform();
   hw->init();
 
-  context = new Context(hw);
+  context = new Context();
   context->init();
 
   userPanel = new UserPanel(hw->getLcd());
@@ -39,7 +39,7 @@ void setup() {
   hangarTask->init(150);
 
   Task* blinkingTask = new BlinkingTask(hw->getL2(),context);
-  blinkingTask->init(150);
+  blinkingTask->init(500);
 
   Task* alarmTask = new AlarmTask(hw,context);
   alarmTask->init(150);

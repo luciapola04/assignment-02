@@ -68,14 +68,21 @@ void HangarTask::tick(){
                 Logger.log("[WC] Dist: " + String(currentDist).substring(0,5));
 
                 if (currentDist > D1) {
-                    if (elapsedTimeInState() > T1) {
+                    if (!sensorConditionMet) {
+                        sensorConditionStartTime = millis();
+                        sensorConditionMet = true;
+                    }else{
+
+                        if ((millis() - sensorConditionStartTime) > T1) {
                         Logger.log("Drone Uscito. Chiudo...");
                         pContext->setDroneInside(false);
                         pContext->setTakeOff(false);
                         setState(IDLE);
+                        }
                     }
+                    
                 } else {
-                    this->stateTimestamp = millis();
+                    sensorConditionMet = false;
                 }
             }
             break;
@@ -95,15 +102,21 @@ void HangarTask::tick(){
                 Logger.log("[WC] Dist: " + String(currentDist).substring(0,5));
 
                 if (currentDist < D2 && currentDist >=0) {
-                    if (elapsedTimeInState() > T2) {
+                    if (!sensorConditionMet) {
+                        sensorConditionStartTime = millis();
+                        sensorConditionMet = true;
+                    }else{
 
-                        Logger.log("Drone Entrato. Chiudo...");
-                        pContext->setLanding(false);
-                        pContext->setDroneInside(true);
-                        setState(IDLE);
+                        if ((millis() - sensorConditionStartTime) > T2) {
+                            Logger.log("Drone Entrato. Chiudo...");
+                            pContext->setLanding(false);
+                            pContext->setDroneInside(true);
+                            setState(IDLE);
+                        }
+
                     }
                 } else {
-                    this->stateTimestamp = millis();
+                    sensorConditionMet=false;
                 }
             }
             break;
@@ -112,10 +125,9 @@ void HangarTask::tick(){
         case ALARM_STATE: {
             if (this->checkAndSetJustEntered()) {
                 Logger.log("ALLARME!!!");
-                if(pContext->isDoorOpen()){
-                    pContext->setLanding(false);
-                    pContext->setTakeOff(false);
-                }
+                pUserPanel->printMessage("ALLARM");
+                pContext->setLanding(false);
+                pContext->setTakeOff(false);
             }
 
             if (!pContext->isInAlarm()) {
@@ -132,6 +144,7 @@ void HangarTask::setState(HangarState s){
     state = s;
     stateTimestamp = millis();
     justEntered = true;
+    sensorConditionMet = false;
 }
 
 long HangarTask::elapsedTimeInState(){

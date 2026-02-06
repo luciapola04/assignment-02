@@ -16,7 +16,7 @@
 
 #define MAX_D_DIST 100.0
 #define T_DOOR_MOVE 3000
-#define BLINK_PERIOD 500
+#define BLINK_PERIOD 250
 #define D1 0.15
 #define D2 0.1
 #define T1 5000

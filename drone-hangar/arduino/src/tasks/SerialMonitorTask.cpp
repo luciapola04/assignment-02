@@ -16,10 +16,11 @@ void SerialMonitorTask::tick(){
   
   checkSerialMonitor();
 
-  if (millis() - this->lastTimeUpdate > 500) {
+  if (millis() - this->lastTimeUpdate > 300) {
         sendSystemState();
         this->lastTimeUpdate = millis();
   }
+  
 }
 
 void SerialMonitorTask::checkSerialMonitor(){

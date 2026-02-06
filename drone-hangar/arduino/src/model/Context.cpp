@@ -1,7 +1,6 @@
 #include "model/Context.h"
 
-Context::Context(HWPlatform* pHW){
-    this->pHW = pHW;
+Context::Context(){
     this->init();
 }
 
@@ -20,10 +19,6 @@ void Context::init(){
 
     this -> currentDistance = 0;
     this -> currentTemp = 15;
-
-    pHW->getL1()->switchOn();
-    pHW->getL3()->switchOff();
-    pHW->getMotor()->off();
 }
 
 

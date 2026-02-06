@@ -25,7 +25,9 @@ private:
 
   HangarState state;
   long stateTimestamp;
+  long sensorConditionStartTime;
   bool justEntered;  
+  bool sensorConditionMet;
 };
 
 #endif

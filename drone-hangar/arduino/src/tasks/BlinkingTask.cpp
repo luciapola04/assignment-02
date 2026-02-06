@@ -25,9 +25,8 @@ void BlinkingTask::tick(){
         if (this->checkAndSetJustEntered()){
             pLed->switchOff();
         }
-        if(elapsedTimeInState() > BLINK_PERIOD){
-            setState(ON);
-        }
+        
+        setState(ON);
         if(!blink){
             setState(IDLE);
         }
@@ -37,9 +36,7 @@ void BlinkingTask::tick(){
         if (this->checkAndSetJustEntered()){
             pLed->switchOn();
         }
-        if(elapsedTimeInState() > BLINK_PERIOD){
-            setState(OFF);
-        }
+        setState(OFF);
         if(!blink){
             setState(IDLE);
         }

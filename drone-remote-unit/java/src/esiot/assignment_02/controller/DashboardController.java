@@ -5,9 +5,6 @@ import esiot.assignment_02.view.DashboardView;
 import esiot.assignment_02.view.LogView;
 
 public class DashboardController  {
-
-	// static final String MSG_MAINTENANCE_DONE 	= "ok";
-	// static final String MSG_DISCHARGE 			= "di";
 	
 	SerialCommChannel channel;
 	DashboardView view;

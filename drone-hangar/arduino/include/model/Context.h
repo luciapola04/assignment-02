@@ -8,7 +8,7 @@ enum AlarmState { AT_NORMAL, CHECKING_PRE_ALARM, PRE_ALARM, CHECKING_ALARM, ALAR
 
 class Context {
     public:
-        Context(HWPlatform* pHW);
+        Context();
         void init();
 
         void setAlarmState(AlarmState s);
@@ -47,7 +47,6 @@ class Context {
 
     private:
         AlarmState alarmState;
-        HWPlatform *pHW;
 
         bool dronePresent; 
 

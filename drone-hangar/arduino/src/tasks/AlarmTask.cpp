@@ -16,7 +16,7 @@ void AlarmTask::tick(){
     this->currentTemp = pHw->getTempSensor()->getTemperature();
     static int localCounter = 0;    
     localCounter++;
-    if (localCounter % 25 == 0){
+    if (localCounter % 50 == 0){
         Logger.log("[WC] Temp: " + String(currentTemp).substring(0,5));
     }
 
@@ -28,6 +28,9 @@ void AlarmTask::tick(){
             pContext->setAlarm(false);
         }
         
+        if (this->currentTemp >= Temp2){
+            setState(CHECKING_ALARM);
+        }
         if (this->currentTemp >= Temp1){
             setState(CHECKING_PRE_ALARM);
         }
@@ -36,6 +39,9 @@ void AlarmTask::tick(){
 
     case CHECKING_PRE_ALARM: {
         
+        if (this->currentTemp >= Temp2){
+            setState(CHECKING_ALARM);
+        }
         if (this->currentTemp < Temp1){
             setState(AT_NORMAL);
         } 

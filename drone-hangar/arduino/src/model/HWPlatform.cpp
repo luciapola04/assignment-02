@@ -18,9 +18,10 @@ HWPlatform::HWPlatform(){
 
 void HWPlatform::init(){
   pir->calibrate();
-  L1->switchOff();
+  L1->switchOn();
   L2->switchOff();
   L3->switchOff();
+  servoMotor->off();
 }
 
 Button* HWPlatform::getButton(){
