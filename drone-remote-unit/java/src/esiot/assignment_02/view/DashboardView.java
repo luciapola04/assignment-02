@@ -72,8 +72,8 @@ public class DashboardView extends JFrame implements ActionListener {
         btnLand = new JButton("Request Landing");
         btnLand.addActionListener(this);
         
-        btnTakeOff.setEnabled(true);
-        btnLand.setEnabled(true);
+        btnTakeOff.setEnabled(false);
+        btnLand.setEnabled(false);
 
         buttonPanel.add(btnTakeOff);
         buttonPanel.add(Box.createRigidArea(new Dimension(20,0))); // Spacer
@@ -115,9 +115,9 @@ public class DashboardView extends JFrame implements ActionListener {
         });
     }
 
-    public void setDistance(double distance) {
+    public void setDistance(String distance) {
         SwingUtilities.invokeLater(() -> {
-            txtDistance.setText(String.format("%.2f m", distance));
+            txtDistance.setText(distance);
         });
     }
 

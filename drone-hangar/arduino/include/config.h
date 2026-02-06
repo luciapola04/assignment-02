@@ -23,8 +23,8 @@
 #define T2 4000
 #define T3 3000
 #define T4 3000
-#define Temp1 20
-#define Temp2 30
+#define Temp1 40
+#define Temp2 50
 
 
 #endif

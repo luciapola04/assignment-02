@@ -21,6 +21,7 @@ void SerialMonitorTask::tick(){
 
       Logger.log("Received cmd: " + content);
 
+
       if (content == "takeoff-req"){
         pContext->setTakeOffRequest(true);
       } 
@@ -31,7 +32,7 @@ void SerialMonitorTask::tick(){
       delete msg; 
     }
   }
-  //sendSystemState();
+  sendSystemState();
 }
 
 void SerialMonitorTask::sendSystemState(){
@@ -45,33 +46,26 @@ void SerialMonitorTask::sendSystemState(){
     hangarStateStr = "PRE-ALARM";
   }
 
-  // --- Determina lo stato del Drone (Logica di visualizzazione) ---
-  // Priorità: Allarme -> Movimento Porta -> Posizione
-  if (pContext->isInAlarm()) {
-    droneStateStr = "HALTED"; 
-  } 
-  else if (pContext->isDoorOpen()) {
-    // Se la porta si muove e il drone era dentro, sta decollando
-    // Se la porta si muove e il drone era fuori, sta atterrando
-    if (pContext->isDroneInside()) {
-        droneStateStr = "TAKE OFF";
-    } else {
+
+  if (pContext->isInTakeOff()) {
+    droneStateStr = "TAKE OFF";
+  }else if(pContext->isInLanding()) {
         droneStateStr = "LANDING";
-    }
   } 
   else if (pContext->isDroneInside()) {
-    droneStateStr = "DRONE INSIDE";
+    droneStateStr = "REST";
   } 
   else {
-    droneStateStr = "DRONE OUT";
+    droneStateStr = "OPERATING";
   }
 
-  // --- Recupera la distanza ---
-  float distance = pContext->getDroneDistance();
+  String distance = "--"; 
+  if(pContext->isInLanding()){
+    distance = String(pContext->getDroneDistance());
+  }
 
-  // --- Costruisci il messaggio Protocollo ---
-  // Formato: dh:st:StatoDrone:StatoHangar:Distanza
   String msg = "dh:st:" + droneStateStr + ":" + hangarStateStr + ":" + String(distance);
+
   
   MsgService.sendMsg(msg);
 }

@@ -4,10 +4,7 @@
 #include "kernel/Logger.h"
 #include "model/Context.h"
 
-#define TEMP1 55.0
-#define TEMP2 60.0 
-#define TIME_T3 3000
-#define TIME_T4 3000
+
 
 AlarmTask::AlarmTask(HWPlatform* pHw, Context* pContext, UserPanel* pUserPanel): 
     pContext(pContext), pHw(pHw), pUserPanel(pUserPanel)  {
@@ -32,7 +29,7 @@ void AlarmTask::tick(){
         }
         
         // Se supera Temp1, inizia a contare il tempo T3
-        if (this->currentTemp >= TEMP1){
+        if (this->currentTemp >= Temp1){
             setState(CHECKING_PRE_ALARM);
         }
         break;
@@ -40,10 +37,10 @@ void AlarmTask::tick(){
 
     case CHECKING_PRE_ALARM: {
         
-        if (this->currentTemp < TEMP1){
+        if (this->currentTemp < Temp1){
             setState(AT_NORMAL);
         } 
-        else if (elapsedTimeInState() > TIME_T3){
+        else if (elapsedTimeInState() > T3){
             setState(PRE_ALARM);
         }
         break;       
@@ -54,20 +51,20 @@ void AlarmTask::tick(){
             Logger.log(F("[ALARM] Pre-Alarm State"));
             pContext->setPreAlarm(true);
         }
-        if (this->currentTemp < TEMP1){
+        if (this->currentTemp < Temp1){
             setState(AT_NORMAL);
         }
-        else if (this->currentTemp >= TEMP2){
+        else if (this->currentTemp >= Temp2){
             setState(CHECKING_ALARM);
         }
         break;
     }
 
     case CHECKING_ALARM: {
-        if (this->currentTemp < TEMP2){
+        if (this->currentTemp < Temp2){
             setState(PRE_ALARM);
         }
-        else if (elapsedTimeInState() > TIME_T4){
+        else if (elapsedTimeInState() > T4){
             setState(ALARM);
         }
         break;
@@ -80,10 +77,8 @@ void AlarmTask::tick(){
             pUserPanel->displayAlarm();
             pHw->getL3()->switchOn();
             pHw->getL1()->switchOff();
-            // Inviare messaggio via DRU (da gestire nel CommunicatorTask leggendo lo stato)
         }
 
-        //solo con tasto RESET.
         if (pHw->getButton()->isPressed()){
             Logger.log(F("[ALARM] Reset pressed."));
             pContext->setAlarm(false);

@@ -41,9 +41,9 @@ void HangarTask::tick(){
 
                 } else if (pContext->isLandingRequest()){
 
-                    pContext->setDronePresent(pHw->getPir()->isDetected() ? true : false);
                     Logger.log("Richiesta LANDING");
-                    if (!pContext->isDroneInside() && pContext->isDronePresent()) {
+                    pHw->getPir()->sync();
+                    if (!pContext->isDroneInside() && pHw->getPir()->isDetected()) {
                         setState(LANDING);
                     } else {
                         Logger.log("ERRORE: Drone dentro o non rilevato dal PIR!");
@@ -92,6 +92,7 @@ void HangarTask::tick(){
             if (pContext->isDoorOpen()) {
 
                 float currentDist = pHw->getSonar()->getDistance();
+                pContext->setDroneDistance(currentDist);
                 Logger.log("[WC] Dist: " + String(currentDist).substring(0,5));
 
                 if (currentDist < D2 && currentDist >=0) {

@@ -43,12 +43,7 @@ public class MonitoringAgent extends Thread {
 							if (elems.length >= 3) {
 								String droneState = elems[0].trim();
 								String hangarState = elems[1].trim();
-								double dist = 0.0;
-								try {
-									dist = Double.parseDouble(elems[2]);
-								} catch (NumberFormatException e) {
-									dist = 0.0;
-								}
+								String dist = elems[2].trim();
 
 								view.setDroneState(droneState);
 								view.setHangarState(hangarState);
@@ -57,9 +52,9 @@ public class MonitoringAgent extends Thread {
 								
 								//gestione dello stato
 
-								boolean isNormal = hangarState.equalsIgnoreCase("IDLE");
-								boolean isInside = droneState.equalsIgnoreCase("DRONE INSIDE");
-								boolean isOutside = droneState.equalsIgnoreCase("DRONE OUT");
+								boolean isNormal = hangarState.equalsIgnoreCase("NORMAL");
+								boolean isInside = droneState.equalsIgnoreCase("REST");
+								boolean isOutside = droneState.equalsIgnoreCase("OPERATING");
 
 								if (!isNormal) {
 									view.setControlsEnabled(false, false);
