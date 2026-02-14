@@ -33,19 +33,19 @@ void setup() {
   userPanel->init();
 
   Task* serialTask = new SerialMonitorTask(context);
-  serialTask->init(150);
+  serialTask->init(200);
 
   Task* hangarTask = new HangarTask(hw,context,userPanel);
-  hangarTask->init(150);
+  hangarTask->init(100);
 
   Task* blinkingTask = new BlinkingTask(hw->getL2(),context);
   blinkingTask->init(500);
 
   Task* alarmTask = new AlarmTask(hw,context);
-  alarmTask->init(150);
+  alarmTask->init(100);
 
   Task* doorTask = new DoorTask(hw->getMotor(),context);
-  doorTask->init(100);
+  doorTask->init(150);
 
   
 

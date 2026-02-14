@@ -16,15 +16,17 @@
 
 #define MAX_D_DIST 100.0
 #define T_DOOR_MOVE 3000
-#define BLINK_PERIOD 250
 #define D1 0.15
 #define D2 0.1
 #define T1 5000
 #define T2 4000
 #define T3 3000
 #define T4 3000
-#define Temp1 40
-#define Temp2 45
+#define Temp1 30
+#define Temp2 40
+
+#define TAKE_OFF_MSG "takeoff-req"
+#define LANDING_MSG "landing-req"
 
 
 #endif

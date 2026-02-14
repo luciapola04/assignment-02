@@ -17,12 +17,6 @@ public:
 
   void printMessage(String message);
   void printMessage(int x,int y,String message);
-
-  void displayDroneInside();
-  void displayTakeOff();
-  void displayDroneOut();
-  void displayLanding();
-  void displayAlarm();
   
  private:
   LiquidCrystal_I2C* pLcd;

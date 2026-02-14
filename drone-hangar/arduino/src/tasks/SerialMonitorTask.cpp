@@ -33,10 +33,10 @@ void SerialMonitorTask::checkSerialMonitor(){
 
       Logger.log("Received cmd: " + content);
 
-      if (content == "takeoff-req"){
+      if (content == TAKE_OFF_MSG){
         pContext->setTakeOffRequest(true);
       } 
-      else if (content == "landing-req"){
+      else if (content == LANDING_MSG){
         pContext->setLandingRequest(true);
       }
       
