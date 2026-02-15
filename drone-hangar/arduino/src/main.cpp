@@ -1,3 +1,4 @@
+//authors: Meloni Leonardo, Pola Lucia
 #include <Arduino.h>
 #include "model/HWPlatform.h"
 #include "model/Context.h"
@@ -42,7 +43,7 @@ void setup() {
   blinkingTask->init(500);
 
   Task* alarmTask = new AlarmTask(hw,context);
-  alarmTask->init(100);
+  alarmTask->init(150);
 
   Task* doorTask = new DoorTask(hw->getMotor(),context);
   doorTask->init(150);
