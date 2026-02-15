@@ -22,8 +22,8 @@
 #define T2 4000
 #define T3 3000
 #define T4 3000
-#define Temp1 30
-#define Temp2 40
+#define Temp1 40
+#define Temp2 50
 
 #define TAKE_OFF_MSG "takeoff-req"
 #define LANDING_MSG "landing-req"
