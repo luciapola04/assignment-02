@@ -16,17 +16,14 @@ class DashboardLauncher {
         
         String portName;
 
-        //controlla prima l'argomento
         if (args.length > 0) {
             portName = args[0];
         } else {
-            //sennò la cerca
             String[] portNames = SerialPortList.getPortNames();
             if (portNames.length > 0) {
                 portName = portNames[0];
                 System.out.println("Porta trovata automaticamente: " + portName);
             } else {
-                //scelta fissa se non trova nulla
                 portName = "COM11"; 
                 System.err.println("Nessuna porta rilevata, provo il default: " + portName);
             }

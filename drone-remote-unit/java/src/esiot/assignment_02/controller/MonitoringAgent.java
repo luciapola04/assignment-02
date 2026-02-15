@@ -49,9 +49,6 @@ public class MonitoringAgent extends Thread {
 								view.setHangarState(hangarState);
 								view.setDistance(dist);
 
-								
-								//gestione dello stato
-
 								boolean isNormal = hangarState.equalsIgnoreCase("NORMAL");
 								boolean isInside = droneState.equalsIgnoreCase("REST");
 								boolean isOutside = droneState.equalsIgnoreCase("OPERATING");

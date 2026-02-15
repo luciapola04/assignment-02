@@ -50,7 +50,6 @@ public class DashboardView extends JFrame implements ActionListener {
         mainPanel.add(pnlHangarState);
         mainPanel.add(Box.createRigidArea(new Dimension(0,10)));
 
-        //MI SERVE SOLAMENTE DURANTE L'ATTERRAGGIO
         JPanel pnlDistance = new JPanel();
         pnlDistance.setLayout(new BoxLayout(pnlDistance, BoxLayout.LINE_AXIS));
         txtDistance = new JTextField("--");
@@ -76,7 +75,7 @@ public class DashboardView extends JFrame implements ActionListener {
         btnLand.setEnabled(false);
 
         buttonPanel.add(btnTakeOff);
-        buttonPanel.add(Box.createRigidArea(new Dimension(20,0))); // Spacer
+        buttonPanel.add(Box.createRigidArea(new Dimension(20,0)));
         buttonPanel.add(btnLand);
         
         mainPanel.add(buttonPanel);
@@ -100,8 +99,6 @@ public class DashboardView extends JFrame implements ActionListener {
     public void registerController(DashboardController contr){
         this.controller = contr;
     }
-
-	//gestione tramite controller
 
     public void setDroneState(String state) {
         SwingUtilities.invokeLater(() -> {
